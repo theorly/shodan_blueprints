@@ -23,14 +23,14 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://shodan.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_04c54523decc4d3da461b23c7ad8c6c2 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_59ce075d760c43889c0d1765b646e59f }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_8a54ffe057da4695ae85559dc8c07235 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_b1fee729f71c4e0392875aa728809647 }}
 
     - name: Build and push container image to registry
       uses: docker/build-push-action@v3
       with:
         push: true
-        tags: shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_04c54523decc4d3da461b23c7ad8c6c2 }}/blue-app:${{ github.sha }}
+        tags: shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8a54ffe057da4695ae85559dc8c07235 }}/blue-app:${{ github.sha }}
         file: ./Dockerfile
 
   deploy:
@@ -47,5 +47,5 @@ jobs:
       with:
         app-name: 'blueprintshodan'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_9947c182908f490fabd80ad4293263c7 }}
-        images: 'shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_04c54523decc4d3da461b23c7ad8c6c2 }}/blue-app:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_ccdb59c243f347de9f23f7dc72a7804d }}
+        images: 'shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_8a54ffe057da4695ae85559dc8c07235 }}/blue-app:${{ github.sha }}'
