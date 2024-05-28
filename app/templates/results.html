@@ -1,0 +1,66 @@
+<!doctype html>
+<head>
+    <title>Shodan-Eye Vulnerability Scanning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+</head>
+<html>
+    <body>
+        <div class="centrato"> 
+            <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
+            <h1 class="centrato">Shodan-Eye</h1>
+        </div>
+
+        <div class="contenuto"> 
+            <ul>
+
+                <h1>Dettagli Vulnerabilità per l'host {{ ip }}</h1>
+
+
+                <p><strong>Status:</strong> {{ message }}</p>
+                <p><strong>Indirizzo IP:</strong> {{ device_info.ip }}</p>
+                <p><strong>Porta:</strong> {{ device_info.port }}</p>
+                <p><strong>Paese:</strong> {{ device_info.country_name }}</p>
+                <p><strong>Città:</strong> {{ device_info.city }}</p>
+                <p><strong>Sistema Operativo:</strong> {{ device_info.os }}</p>
+                <p><strong>Domini:</strong> {{ device_info.domains }}</p>
+                <p><strong>Latitude:</strong> {{ device_info.latitude }}</p>
+                <p><strong>Longitude:</strong> {{ device_info.longitude }}</p>
+                
+                
+                <h1> VULNERABILITY LISTS: </h1>
+                <table> 
+                    <tr>
+                        <th id="id">ID: </th>
+                        <th id="summary">SUMMARY: </th>
+                        <th>CVSS: </th>
+                        <th id="reference">REFERENCE: </th>
+                    </tr>
+                    {% for id, elemento in context.items() %}
+                    <tr>
+                        <td><strong>{{ id }} </strong></td>
+                        <td><strong>{{elemento[0]}}</strong></td>
+                        <td><strong>{{elemento[1]}}</strong></td>
+                        <td>
+                            <div id="reference-container"> 
+                            {% for reference in elemento[2] %}
+                            <a href="{{ reference}}" >{{reference}}</a><br>
+                            {% endfor %}
+                        </div>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </table>
+            
+                
+        </ul>       
+        </div>
+        <div class="backbutton"> 
+        <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
+
+        
+    </div>
+
+    </body>
+    <script src='../static/bootstrap/js/script.js'></script>
+</html>

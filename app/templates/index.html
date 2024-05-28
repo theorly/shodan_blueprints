@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Shodan-Eye Vulnerability Scanning</title>
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+      </head>
+<body>
+    <div class="contenitore">
+    <div class="centrato"> 
+    <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
+    <h1 class="centrato">Shodan-Eye</h1>
+</div>
+    <div class="contenuto"> 
+        <form action="{{url_for('search.search')}}" method="post">
+            <div class="searchbar"> 
+                <label for="ip_address">Insert query:</label>
+                <input type="text" id="ip_address" name="ip_address" placeholder="Search on Shodan an IP TARGET..." style="max-width: 256;" size="50">
+                <label for="expires">Range di km:</label> 
+                <input type="text" id="range" name="range" value="0"> 
+            </div>
+        <label for="name" class="form-label fw-bold fs-5">Immetti la tua query!</label>
+        <br>
+        <button type="submit" class="btn btn-primary btn-lg px-4 gap-3">Search</button>
+        </form>
+
+        <br>
+
+        <br>
+        <br>
+
+ 
+            <br>
+            <form action="{{url_for('alert.create_alert')}}" method="post">
+                 
+                    <label for="name">Nome Alert:</label> 
+                    <input type="text" pattern="[^ ]*" id="name" name="name" required> 
+             
+                    <label for="net">Rete:</label> 
+                    <input type="text" id="net" name="net" required> 
+             
+                    <label for="expires">Tempo di scadenza (minuti):</label> 
+                    <input type="number" id="expires" name="expires" min="1" value="60" required> 
+             
+                    <button type="submit">Crea Alert</button> 
+                </form> 
+    <br>
+    <br>
+            <br>
+            <br>
+            <form action="{{url_for('alert.delete_alert')}}" method="post">
+                 
+                    <label for="name">Nome Alert:</label> 
+                    <input type="text" pattern="[^ ]*" id="name" name="name" required> 
+             
+                    <button type="submit">Delete Alert</button> 
+                </form> 
+    
+    <br> 
+    <br>
+            <br>
+            <br>
+            <form action="{{url_for('alert.list')}}" method="post">
+             
+                    <button type="submit"> Alert LIST</button> 
+                </form> 
+    
+    <br> 
+    <div class="info"> 
+        <img src="{{ url_for('static', filename='images/info.png') }}" alt="Image info" width="50" height="50">
+        <a href="{{ url_for('main.about')}}">Shodan-Eye</a>
+    </div>
+</div>
+
+</div>
+</body>
+</html>

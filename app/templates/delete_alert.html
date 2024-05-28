@@ -1,0 +1,39 @@
+<!doctype html>
+<head>
+    <title>Shodan-Eye Vulnerability Scanning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+</head>
+<html>
+    <body>
+        <div class="centrato"> 
+            <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
+            <h1 class="centrato">Shodan-Eye</h1>
+        </div>
+
+        <div class="contenuto"> 
+            <ul>
+                <h1>Network Alert Service</h1>
+                <br>
+                <p><strong>Alert Name:</strong> {{ name }}</p>
+                <br>
+                <p><strong>Result: </strong> {{ message }}</p>
+                
+                
+        </ul>       
+        </div>
+        <div class="backbutton"> 
+        <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
+
+        
+    </div>
+
+        <div class="backbutton"> 
+        <form action="{{url_for('alert.list')}}" method="post">
+            <button type="submit" class="btn btn-primary">Visualizza elenco alert</button>
+        </form>
+        </div>
+
+    </body>
+    <script src='../static/bootstrap/js/script.js'></script>
+</html>

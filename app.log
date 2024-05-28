@@ -1,0 +1,46 @@
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:21] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:21] "[36mGET /static/images/images.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:21] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:21] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:21] "[36mGET /static/images/info.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:24] "GET /team HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:24] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:24] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:24] "[36mGET /static/images/git.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:25] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:25] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:25] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:25] "[36mGET /static/images/info.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:25] "[36mGET /static/images/images.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:root:Richiesta ricevuta per la rotta index /
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:50] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:50] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:50] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:50] "[36mGET /static/images/images.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:50] "[36mGET /static/images/info.png HTTP/1.1[0m" 304 -
+INFO:root:Richiesta ricevuta per la rotta team /
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:51] "GET /team HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:51] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:51] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:42:51] "[36mGET /static/images/git.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:[31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on http://127.0.0.1:5000
+INFO:werkzeug:[33mPress CTRL+C to quit[0m
+INFO:root:Richiesta ricevuta per la rotta index /
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:17] "GET / HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:17] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:17] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:17] "[36mGET /static/images/info.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:17] "[36mGET /static/images/images.png HTTP/1.1[0m" 304 -
+INFO:root:Resolved ip_address and range from the index.html
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:22] "POST /search HTTP/1.1" 200 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:22] "[36mGET /static/bootstrap/css/styles.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:22] "[36mGET /static/bootstrap/css/bootstrap.min.css HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:22] "[36mGET /static/images/images.png HTTP/1.1[0m" 304 -
+INFO:werkzeug:127.0.0.1 - - [28/May/2024 16:44:22] "GET /static/bootstrap/js/script.js HTTP/1.1" 200 -

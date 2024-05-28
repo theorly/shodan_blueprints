@@ -1,0 +1,49 @@
+<!doctype html>
+<head>
+    <title>Shodan-Eye Vulnerability Scanning</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+</head>
+<html>
+    <body>
+        <div class="centrato"> 
+            <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
+            <h1 class="centrato">Shodan-Eye</h1>
+        </div>
+
+        <div class="contenuto"> 
+            <ul>
+                <h1>Network Alert Service</h1>
+                <h1> ALERT LISTS: </h1>
+                <table> 
+                    <tr>
+                        <th>ID: </th>
+                        <th>NAME: </th>
+                        <th>NET: </th>
+                        <th>Expires: </th>
+                        <th>Triggers: </th>
+
+                        {% for id in info %}
+                    <tr>
+                        <td><strong>{{id['id']}}</strong></td>
+                        <td><strong>{{id['name']}}</strong></td>
+                        <td><strong>{{id['ip']}}</strong></td>
+                        <td><strong>{{id['expires']}}</strong></td>
+                        <td><strong>{{id['triggers']}}</strong></td>
+                        
+                    </tr>
+                    {% endfor %}
+                </table>
+                
+        </ul>       
+        </div>
+        <div class="backbutton"> 
+        <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
+
+        
+    </div>
+
+    </body>
+    
+    <script src='../static/bootstrap/js/script.js'></script>
+</html>

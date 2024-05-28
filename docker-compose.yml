@@ -1,0 +1,9 @@
+version: '3.9'
+
+services:
+  shodan-app:
+    build: 
+      dockerfile: Dockerfile
+    container_name: shodan-app
+    ports:
+      - "5000:5000"
