@@ -6,7 +6,8 @@ import redis
 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
 redis_port = 6379  # Porta Redis standard
-redis_client = redis.Redis(host=redis_host, port=redis_port)
+redis_psw = os.environ["REDIS_PSW"]
+redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw)
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO)    
