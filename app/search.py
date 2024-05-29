@@ -35,13 +35,13 @@ def search():
     range_km = request.form["range"]
 
     if ip_address == redis_client.get(ip_address):
-
+        message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {ip_address} successfull!!")
         return render_template('results.html' , message = message, device_info = retrieved_info)
     
     elif (ranged_value:=str(ip_address + '_' +range_km)) == redis_client.get(ranged_value):
-
+        message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {ranged_value} successfull!!")
         return render_template('results_geo.html' , message = message, device_info = retrieved_info)
