@@ -116,6 +116,7 @@
             <br>
             <br>
               <!-- INSERT FORM FOR SEARCH -->
+              <form action="{{url_for('search.search')}}" method="post">
                 <div class="row">
                     <div class="input-field col s6">
                     <label for="ip_address">Ip Address</label>
@@ -131,10 +132,11 @@
                     <br>
                     <label for="name" class="form-label fw-bold fs-5">Immetti la tua query!</label>
                     <br>
-                    <button class="btn waves-effect waves-light blue" type="submit" name="action">Submit
+                    <button class="btn waves-effect waves-light blue" type="submit">Submit
                         <i class="material-icons right blue">send</i>
                     </button>
                 </div>
+              </form>
               
         <br> 
         <br>
@@ -143,29 +145,29 @@
         <br>
                 <!-- INSERT FORM FOR CREATE ALERT -->
                 <form action="{{url_for('alert.create_alert')}}" method="post"> 
-                <div class="row">
-                  <div class="input-field col s3">
-                  <label for="name">Alert name</label>
-                  <br>
-                  <input id="name" pattern="[^ ]*" type="text" class="validate" required>
+                  <div class="row">
+                    <div class="input-field col s3">
+                    <label for="name">Alert name</label>
+                    <br>
+                    <input id="name" pattern="[^ ]*" type="text" class="validate" required>
+                    </div>
+                    <div class="input-field col s">
+                    <label for="net">Network:</label>
+                    <br>
+                    <input id="net" type="text" class="validate" required>
+                    </div>
+                    
+                    <div class="input-field col s3"> 
+                    <label for="expires">Tempo di scadenza (minuti):</label> 
+                    <br>
+                    <input type="number" id="expires" name="expires" min="1" value="60" required> 
+                    </div>
+                    <br>
+                    <button class="btn-floating btn-large waves-effect waves-light blue" type="submit">
+                      <i class="material-icons right blue">send</i>
+                    </button>     
                   </div>
-                  <div class="input-field col s">
-                  <label for="net">Network:</label>
-                  <br>
-                  <input id="net" type="text" class="validate" required>
-                  </div>
-                  
-                  <div class="input-field col s3"> 
-                  <label for="expires">Tempo di scadenza (minuti):</label> 
-                  <br>
-                  <input type="number" id="expires" name="expires" min="1" value="60" required> 
-                  </div>
-                  <br>
-                  <button class="btn-floating btn-large waves-effect waves-light blue" type="submit" name="action">
-                    <i class="material-icons right blue">send</i>
-                </button>     
-              </div>
-            </form>
+                </form>
 
 
         <br> 
@@ -180,7 +182,7 @@
                 <input id="name" pattern="[^ ]*" type="text" class="validate" required>
                 </div>
                <br>
-                <button class="btn-floating btn-large waves-effect waves-light blue center-align" type="submit" name="action">
+                <button class="btn-floating btn-large waves-effect waves-light blue center-align" type="submit">
                   <i class="material-icons right blue">delete</i>
                 </button>     
             </div>
