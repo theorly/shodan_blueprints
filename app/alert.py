@@ -3,7 +3,7 @@ import shodan
 import logging
 import os 
 
-l#ogging.basicConfig(filename='app.log', level=logging.INFO) 
+#logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)    
 
 SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
