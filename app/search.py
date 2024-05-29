@@ -5,7 +5,6 @@ import os
 import redis 
 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
-
 redis_port = 6379  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
 
@@ -13,7 +12,7 @@ redis_psw = os.environ["REDIS_PSW"]
 logging.basicConfig(level=logging.INFO)    
 
 try:
-    redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw, ssl=False, abortConnect = False)
+    redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw, ssl=False)
     logging.info("Connected to Redis server successfully!")
 except redis.exceptions.AuthenticationError as e:
     logging.error(e)
