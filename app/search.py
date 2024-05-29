@@ -112,7 +112,7 @@ def search():
             message = ('Success!')
             print("Trying to write on cache the result. \n")
             relevan_info_json = json.dumps(relevant_info)
-            redis_client.set(ip_address, relevan_info_json)
+            redis_client.set(f"{ip_address}", relevan_info_json)
             print("Wirting on cache successful! \n")
             return render_template('results.html' , message = message, device_info = relevant_info, context = vuln)
     
