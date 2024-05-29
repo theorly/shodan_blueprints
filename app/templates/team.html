@@ -4,18 +4,38 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Team Contacts</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
     <div class="centrato"> 
         <h1>Shodan-Eye Web App Project</h1>
+
     </div>
     <p>Contact information for our team members:</p>
     <br> 
     <!-- Add team member information here -->
     <p> Orlando De Bernardis</p>
     <br>
+    <div class="col s4 m4 offset-m2 l1 offset-l1">
+        <div class="card-panel grey lighten-5 z-depth-1">
+          <div class="row valign-wrapper">
+            <div class="col s2">
+              <img src="{{ url_for('static', filename='images/images.png') }}" alt="" class="circle responsive-img"> <!-- notice the "circle" class -->
+            </div>
+            <div class="col s15">
+              <span class="black-text">
+                This is a square image. Add the "circle" class to it to make it appear circular.
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    <br>
+
+
+
+
     <p> Pierantonio Carrozzini</p>
     <br>
     <p> Luca Sambuchi</p>
