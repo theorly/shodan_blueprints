@@ -3,6 +3,7 @@ import shodan
 import logging
 import os 
 import redis 
+import json
 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
 redis_port = 6379  # Porta Redis standard
@@ -109,7 +110,8 @@ def search():
         else: 
             message = ('Success!')
             print("Trying to write on cache the result. \n")
-            redis_client.set(ip_address, relevant_info)
+            relevan_info_json = json.dump(relevant_info)
+            redis_client.set(ip_address, relevan_info_json)
             print("Wirting on cache successful! \n")
             return render_template('results.html' , message = message, device_info = relevant_info, context = vuln)
     
