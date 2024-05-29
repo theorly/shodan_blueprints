@@ -2,13 +2,18 @@ from flask import Blueprint, render_template, request
 import shodan 
 import logging
 import os 
+import redis 
+
+redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
+redis_port = 6379  # Porta Redis standard
+redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 
 logging.basicConfig(filename='app.log', level=logging.INFO)    
 
-#SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
+
 SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
-print(SHODAN_API_KEY)
+
 api = shodan.Shodan(SHODAN_API_KEY)
 
 host = Blueprint("search", __name__)
@@ -90,7 +95,7 @@ def search():
         
         else: 
             message = ('Success!')
-            
+            redis_client.set(ip_address, relevant_info)
             return render_template('results.html' , message = message, device_info = relevant_info, context = vuln)
     
     except shodan.APIError as e:

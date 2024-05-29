@@ -5,7 +5,7 @@ import logging
 
 logging.basicConfig(filename='app.log', level=logging.INFO) 
 
-SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
+SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
 api = shodan.Shodan(SHODAN_API_KEY)
 
 alert = Blueprint("alert", __name__)
