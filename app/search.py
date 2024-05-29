@@ -32,9 +32,9 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
-    #if ip_address == redis_client.get(ip_address):
-    #    prova_key = redis_client.get(ip_address)
-    #    print(prova_key)
+    if ip_address == redis_client.get(ip_address):
+        prova_key = redis_client.get(ip_address)
+        print(prova_key)
 
 
     logging.info("Resolved ip_address and range from the index.html")
