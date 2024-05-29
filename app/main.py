@@ -12,7 +12,7 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def home():
     logging.info('Richiesta ricevuta per la rotta index /')
-    return render_template('index_home.html')
+    return render_template('index.html')
 
 @main.route("/team")
 def about():
