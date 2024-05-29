@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, request
 import shodan 
 import logging
-
+import os 
 
 logging.basicConfig(filename='app.log', level=logging.INFO) 
 
