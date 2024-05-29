@@ -23,6 +23,11 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
+    if ip_address == redis_client.get(ip_address):
+        prova_key = redis_client.get(ip_address)
+        print(prova_key)
+
+
     logging.info("Resolved ip_address and range from the index.html")
     
     try:
@@ -95,7 +100,9 @@ def search():
         
         else: 
             message = ('Success!')
+            print("Trying to write on cache the result. \n")
             redis_client.set(ip_address, relevant_info)
+            print("Wirting on cache successful! \n")
             return render_template('results.html' , message = message, device_info = relevant_info, context = vuln)
     
     except shodan.APIError as e:
