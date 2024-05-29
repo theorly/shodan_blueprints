@@ -32,12 +32,12 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
-    if ip_address == redis_client.get(ip_address):
-        prova_key =  json.loads(redis_client.get(ip_address))
-        logging.info(f"retrieved from cache {prova_key} successfull!!")
-        return prova_key
+    #if ip_address == redis_client.get(ip_address):
+    prova_key =  json.loads(redis_client.get(ip_address))
+    logging.info(f"retrieved from cache {prova_key} successfull!!")
+    return prova_key
 
-
+    """ 
     logging.info("Resolved ip_address and range from the index.html")
     
     try:
@@ -120,6 +120,6 @@ def search():
         logging.error(e)
         message = str(e)
         return render_template('results.html' , message = message, device_info = dict(), context = dict())
-    
+    """
 
 
