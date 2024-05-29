@@ -33,7 +33,7 @@
                         <th>CVSS: </th>
                         <th id="reference">REFERENCE: </th>
                     </tr>
-                    {% for id, elemento in context.items() %}
+                    {% for id, elemento in device_info['vuln'].items() %}
                     <tr>
                         <td><strong>{{ id }} </strong></td>
                         <td><strong>{{elemento[0]}}</strong></td>
@@ -63,7 +63,7 @@
                         <th>LONGITUDE:</th>
                         <th>VULNERABILITIES:</th>
                     </tr>
-                    {% for device_info in devices %}
+                    {% for device_info in device_info.near_devices %}
                     <tr>
                         <td><strong>  {{ device_info.ip }} </strong></td>
                         <td><strong>  {{ device_info.port }} </strong></td>

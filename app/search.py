@@ -13,6 +13,7 @@ redis_psw = os.environ["REDIS_PSW"]
 #logging.basicConfig(filename='app.log', level=logging.INFO)    
 logging.basicConfig(level=logging.INFO)    
 
+
 try:
     redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw, ssl=False)
     logging.info("Connected to Redis server successfully!")
@@ -21,8 +22,9 @@ except redis.exceptions.AuthenticationError as e:
 
 
 
-SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
 
+SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+#SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
 api = shodan.Shodan(SHODAN_API_KEY)
 
 host = Blueprint("search", __name__)
@@ -32,12 +34,18 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
-    #if ip_address == redis_client.get(ip_address):
-    prova_key =  json.loads(redis_client.get(ip_address))
-    logging.info(f"retrieved from cache {prova_key} successfull!!")
-    return prova_key
+    if ip_address == redis_client.get(ip_address):
 
-    """ 
+        retrieved_info =  json.loads(redis_client.get(ip_address))
+        logging.info(f"retrieved from cache {ip_address} successfull!!")
+        return render_template('results.html' , message = message, device_info = retrieved_info)
+    
+    elif (ranged_value:=str(ip_address + '_' +range_km)) == redis_client.get(ranged_value):
+
+        retrieved_info =  json.loads(redis_client.get(ip_address))
+        logging.info(f"retrieved from cache {ranged_value} successfull!!")
+        return render_template('results_geo.html' , message = message, device_info = retrieved_info)
+    
     logging.info("Resolved ip_address and range from the index.html")
     
     try:
@@ -70,8 +78,9 @@ def search():
             'domains' : result['domains'],
             'ports': result.get('ports', 'N/A'),
             'latitude' : result.get('latitude'),
-            'longitude' : result.get('longitude')
+            'longitude' : result.get('longitude'), 
         }
+        relevant_info["vuln"] = vuln
         
         if range_km != "0":
             latitude = result['latitude']
@@ -104,22 +113,28 @@ def search():
                             device_info['vulnerabilities'].append(vulnerability)
 
                     devices.append(device_info)
+                    
             message = ('Success!')
-           
-            return render_template('results_geo.html' , message = message, device_info = relevant_info, context = vuln, devices=devices)
+            relevant_info['near_devices'] = devices
+            #writing on cache 
+            print("Trying to write on cache the result. \n")
+            relevant_info_json = json.dumps(relevant_info)
+            redis_client.set(f"{ip_address}_{range_km}", relevant_info_json)
+            print("Wirting on cache successful! \n")
+            return render_template('results_geo.html' , message = message, device_info = relevant_info)
         
         else: 
             message = ('Success!')
             print("Trying to write on cache the result. \n")
-            relevan_info_json = json.dumps(relevant_info)
-            redis_client.set(f"{ip_address}", relevan_info_json)
+            relevant_info_json = json.dumps(relevant_info)
+            redis_client.set(f"{ip_address}", relevant_info_json)
             print("Wirting on cache successful! \n")
-            return render_template('results.html' , message = message, device_info = relevant_info, context = vuln)
+            return render_template('results.html' , message = message, device_info = relevant_info)
     
     except shodan.APIError as e:
         logging.error(e)
         message = str(e)
         return render_template('results.html' , message = message, device_info = dict(), context = dict())
-    """
+    
 
 

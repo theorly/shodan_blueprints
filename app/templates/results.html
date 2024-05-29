@@ -36,7 +36,7 @@
                         <th>CVSS: </th>
                         <th id="reference">REFERENCE: </th>
                     </tr>
-                    {% for id, elemento in context.items() %}
+                    {% for id, elemento in device_info['vuln'].items() %}
                     <tr>
                         <td><strong>{{ id }} </strong></td>
                         <td><strong>{{elemento[0]}}</strong></td>
