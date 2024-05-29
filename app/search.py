@@ -9,6 +9,7 @@ redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo h
 redis_port = 6379  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
 
+
 #logging.basicConfig(filename='app.log', level=logging.INFO)    
 logging.basicConfig(level=logging.INFO)    
 
@@ -17,7 +18,6 @@ try:
     logging.info("Connected to Redis server successfully!")
 except redis.exceptions.AuthenticationError as e:
     logging.error(e)
-
 
 
 
@@ -32,8 +32,8 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
-    if ip_address == redis_client.get(f"{ip_address}"):
-        prova_key = redis_client.get(ip_address)
+    if ip_address == redis_client.get(ip_address):
+        prova_key =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {prova_key} successfull!!")
         return prova_key
 
