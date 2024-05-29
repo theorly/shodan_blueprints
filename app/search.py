@@ -35,6 +35,7 @@ def search():
     if ip_address == redis_client.get(ip_address):
         prova_key = redis_client.get(ip_address)
         logging.info(f"retrieved from cache {prova_key} successfull!!")
+        return prova_key
 
 
     logging.info("Resolved ip_address and range from the index.html")
