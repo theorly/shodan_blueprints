@@ -9,7 +9,8 @@ redis_port = 6379  # Porta Redis standard
 redis_client = redis.Redis(host=redis_host, port=redis_port)
 
 
-logging.basicConfig(filename='app.log', level=logging.INFO)    
+#logging.basicConfig(filename='app.log', level=logging.INFO)    
+logging.basicConfig(level=logging.INFO)    
 
 
 SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
@@ -23,9 +24,9 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
-    if ip_address == redis_client.get(ip_address):
-        prova_key = redis_client.get(ip_address)
-        print(prova_key)
+    #if ip_address == redis_client.get(ip_address):
+    #    prova_key = redis_client.get(ip_address)
+    #    print(prova_key)
 
 
     logging.info("Resolved ip_address and range from the index.html")

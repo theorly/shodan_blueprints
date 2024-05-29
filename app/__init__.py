@@ -5,7 +5,8 @@ from app import main
 from app import search
 from app import alert
 
-logging.basicConfig(filename='app.log', level=logging.INFO)  
+#logging.basicConfig(filename='app.log', level=logging.INFO)  
+logging.basicConfig(level=logging.INFO)    
 
 
 def create_app():

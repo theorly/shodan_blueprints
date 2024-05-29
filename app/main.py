@@ -2,7 +2,8 @@ from flask import Blueprint, render_template
 import logging
 
 
-logging.basicConfig(filename='app.log', level=logging.INFO)    
+#logging.basicConfig(filename='app.log', level=logging.INFO) 
+logging.basicConfig(level=logging.INFO)       
 
 
 
