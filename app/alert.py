@@ -26,6 +26,7 @@ def create_alert():
         try: 
                 alert = api.create_alert(name, net, expires=expires) 
                 # add the alert to the trigger
+                trigger = "'" + trigger + "'"
                 trigger = api.enable_alert_trigger(aid=alert['id'], trigger=trigger)
         
                 # print the alert status
