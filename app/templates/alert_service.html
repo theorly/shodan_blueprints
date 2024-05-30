@@ -16,7 +16,7 @@
             <br> 
             <!-- INSERT FORM FOR CREATE ALERT -->
             <div class="row center">
-                <form action="{{url_for('alert.create_alert')}}" method="post" onsubmit="return validateForm()"> 
+                <form action="{{url_for('alert.create_alert')}}" method="post" onsubmit="return validateCreateAlertForm()"> 
                 
                   <div class="input-field col s2">
                     <label for="name">Alert name</label>
@@ -53,7 +53,7 @@
             <br>
             <br> 
             <div class="row center-content">
-                <form action="{{url_for('alert.delete_alert')}}" method="post"> 
+                <form action="{{url_for('alert.delete_alert')}}" method="post" id="delete_alert_form" onsubmit="return validateDeleteAlertForm()"> 
                   <div class="input-field col s5 l3">
                     <label for="name">Alert name</label>
                     <br>
@@ -89,45 +89,48 @@
 </div>
 
 <script>
-  function validateForm() {
+  function validateCreateAlertForm() {
       // Controllo per il form di creazione di alert
-      if (document.getElementById('name')) {
-          var name = document.getElementById('name').value.trim();
-          var net = document.getElementById('net').value.trim();
-          var trigger = document.getElementById('trigger').value.trim();
-          var expires = document.getElementById('expires').value;
+      var name = document.getElementById('name').value.trim();
+      var net = document.getElementById('net').value.trim();
+      var trigger = document.getElementById('trigger').value.trim();
+      var expires = document.getElementById('expires').value;
 
-          // Controlla se il campo "name" è vuoto o contiene spazi
-          if (name === '') {
-              alert("Inserisci un nome valido per l'allerta!");
-              return false;
-          }
+      // Controlla se il campo "name" è vuoto o contiene spazi
+      if (name === '') {
+          alert("Inserisci un nome valido per l'allerta!");
+          return false;
+      }
 
-          // Controlla se il campo "net" è vuoto o non corrisponde a un indirizzo IP
-          if (net === '' || !isValidIPAddress(net)) {
-              alert("Inserisci un indirizzo IP valido per il campo 'Network'");
-              return false;
-          }
+      // Controlla se il campo "net" è vuoto o non corrisponde a un indirizzo IP
+      if (net === '' || !isValidIPAddress(net)) {
+          alert("Inserisci un indirizzo IP valido per il campo 'Network'");
+          return false;
+      }
 
-          // Controlla se il campo "trigger" contiene valori validi
-          var allowedTriggers = ['any' ,'new_service', 'malware', 'open_database', 'iot', 'vulnerable', 'ssl_expired', 'industrial_control_system', 'internet_scanner'];
-          var triggerValues = trigger.split(',').map(function(item) { return item.trim(); });
-          for (var i = 0; i < triggerValues.length; i++) {
-              if (!allowedTriggers.includes(triggerValues[i])) {
-                  alert("Il campo 'Trigger' contiene un valore non valido: " + triggerValues[i]);
-                  return false;
-              }
-          }
-
-          // Controlla se il campo "expires" è un numero positivo
-          if (isNaN(expires) || parseInt(expires) <= 0) {
-              alert("Il tempo di scadenza deve essere un numero positivo!");
+      // Controlla se il campo "trigger" contiene valori validi
+      var allowedTriggers = ['new_service', 'malware', 'open_database', 'iot', 'vulnerable', 'ssl_expired', 'industrial_control_system', 'internet_scanner'];
+      var triggerValues = trigger.split(',').map(function(item) { return item.trim(); });
+      for (var i = 0; i < triggerValues.length; i++) {
+          if (!allowedTriggers.includes(triggerValues[i])) {
+              alert("Il campo 'Trigger' contiene un valore non valido: " + triggerValues[i]);
               return false;
           }
       }
-      
+
+      // Controlla se il campo "expires" è un numero positivo
+      if (isNaN(expires) || parseInt(expires) <= 0) {
+          alert("Il tempo di scadenza deve essere un numero positivo!");
+          return false;
+      }
+
+      return true;
+  }
+
+  function validateDeleteAlertForm() {
       // Controllo per il form di eliminazione di alert
-      if (document.getElementById('name_delete') && document.getElementById('name_delete').value.trim() === '') {
+      var name_delete = document.getElementById('name_delete').value.trim();
+      if (name_delete === '') {
           alert("Inserisci un nome valido per eliminare l'allerta!");
           return false;
       }
