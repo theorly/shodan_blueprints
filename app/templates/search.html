@@ -10,7 +10,7 @@
         </div>
 
         <div class="row center">
-            <form action="{{url_for('search.search')}}" method="post">
+            <form action="{{url_for('search.search')}}" method="post" onsubmit="return validateIPAddress()">
                 <div class="row">
                     <div class="input-field col s6">
                     <label for="ip_address">Ip Address</label>
@@ -36,5 +36,18 @@
 
     </div>
 </div>
+
+<script>
+    function validateIPAddress() {
+        var ipAddress = document.getElementById('ip_address').value;
+        var ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/; // Regex per un indirizzo IP valido
+
+        if (!ipPattern.test(ipAddress)) {
+            alert("Inserisci un indirizzo IP valido!");
+            return false;
+        }
+        return true;
+    }
+</script>
 
 {% endblock %}
