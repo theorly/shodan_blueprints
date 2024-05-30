@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, request
 import shodan 
 import logging
 import os 
-#import redis 
+import redis 
 from prometheus_client import Counter, REGISTRY, generate_latest, CONTENT_TYPE_LATEST
 from prometheus_flask_exporter import PrometheusMetrics
 
@@ -11,22 +11,22 @@ import json
 REQUEST_COUNT_SEARCH = Counter('http_requests_total_search', 'Total HTTP Requests', ['method', 'endpoint'])
 metrics = PrometheusMetrics.for_app_factory()
 
-""" 
+ 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
 redis_port = 6379  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
-"""
+
 
 #logging.basicConfig(filename='app.log', level=logging.INFO)    
 logging.basicConfig(level=logging.INFO)    
 
-"""
+
 try:
     redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw, ssl=False)
     logging.info("Connected to Redis server successfully!")
 except redis.exceptions.AuthenticationError as e:
     logging.error(e)
-"""
+
 
 
 
@@ -42,7 +42,7 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
-    """
+    
     if ip_address == redis_client.get(ip_address):
         message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))
@@ -54,7 +54,7 @@ def search():
         retrieved_info =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {ranged_value} successfull!!")
         return render_template('results_geo.html' , message = message, device_info = retrieved_info)
-    """
+    
     logging.info("Resolved ip_address and range from the index.html")
     
     try:
@@ -127,16 +127,16 @@ def search():
             relevant_info['near_devices'] = devices
             #writing on cache 
             print("Trying to write on cache the result. \n")
-            #relevant_info_json = json.dumps(relevant_info)
-            #redis_client.set(f"{ip_address}_{range_km}", relevant_info_json)
+            relevant_info_json = json.dumps(relevant_info)
+            redis_client.set(f"{ip_address}_{range_km}", relevant_info_json)
             print("Wirting on cache successful! \n")
             return render_template('results_geo.html' , message = message, device_info = relevant_info)
         
         else: 
             message = ('Success!')
             print("Trying to write on cache the result. \n")
-            #relevant_info_json = json.dumps(relevant_info)
-            #redis_client.set(f"{ip_address}", relevant_info_json)
+            relevant_info_json = json.dumps(relevant_info)
+            redis_client.set(f"{ip_address}", relevant_info_json)
             print("Wirting on cache successful! \n")
             return render_template('results.html' , message = message, device_info = relevant_info)
     
