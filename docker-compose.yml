@@ -1,4 +1,4 @@
-version: '3.9'
+version: '3.8'
 
 networks:
   mynetwork:
@@ -8,7 +8,7 @@ services:
   shodan-app:
     build: 
       dockerfile: Dockerfile
-    container_name: shodan-app
+    #container_name: shodan-app
     ports:
       - "5000:5000"
     networks:
@@ -21,7 +21,7 @@ services:
     networks:
       - mynetwork
   prometheus:
-    container_name: prometheus
+    #container_name: prometheus
     build: 
       dockerfile: Dockerfile_prometheus
     volumes:
@@ -30,4 +30,5 @@ services:
       - "9090:9090"
     networks:
       - mynetwork
+  
 
