@@ -16,7 +16,7 @@
             <br> 
             <!-- INSERT FORM FOR CREATE ALERT -->
             <div class="row center">
-                <form action="{{url_for('alert.create_alert')}}" method="post"> 
+                <form action="{{url_for('alert.create_alert')}}" method="post" onsubmit="return validateForm()"> 
                 
                   <div class="input-field col s2">
                     <label for="name">Alert name</label>
@@ -57,7 +57,7 @@
                   <div class="input-field col s5 l3">
                     <label for="name">Alert name</label>
                     <br>
-                    <input type="text" id="name" name ="name" pattern="[^ ]*" required>
+                    <input type="text" id="name_delete" name="name_delete" required>
                   </div>
 
                 <br>
@@ -87,6 +87,62 @@
 
     </div>
 </div>
+
+<script>
+  function validateForm() {
+      // Controllo per il form di creazione di alert
+      if (document.getElementById('name')) {
+          var name = document.getElementById('name').value.trim();
+          var net = document.getElementById('net').value.trim();
+          var trigger = document.getElementById('trigger').value.trim();
+          var expires = document.getElementById('expires').value;
+
+          // Controlla se il campo "name" è vuoto o contiene spazi
+          if (name === '') {
+              alert("Inserisci un nome valido per l'allerta!");
+              return false;
+          }
+
+          // Controlla se il campo "net" è vuoto o non corrisponde a un indirizzo IP
+          if (net === '' || !isValidIPAddress(net)) {
+              alert("Inserisci un indirizzo IP valido per il campo 'Network'");
+              return false;
+          }
+
+          // Controlla se il campo "trigger" corrisponde a uno dei valori consentiti
+          var allowedTriggers = ['new_service', 'malware', 'open_database', 'iot', 'vulnerable', 'ssl_expired', 'industrial_control_system', 'internet_scanner'];
+          if (!allowedTriggers.includes(trigger)) {
+              alert("Il campo 'Trigger' deve corrispondere a uno dei seguenti valori: " + allowedTriggers.join(", "));
+              return false;
+          }
+
+          // Controlla se il campo "expires" è un numero positivo
+          if (isNaN(expires) || parseInt(expires) <= 0) {
+              alert("Il tempo di scadenza deve essere un numero positivo!");
+              return false;
+          }
+      }
+      
+      // Controllo per il form di eliminazione di alert
+      if (document.getElementById('name_delete')) {
+          var name_delete = document.getElementById('name_delete').value.trim();
+
+          // Controlla se il campo "name" è vuoto
+          if (name_delete === '') {
+              alert("Inserisci un nome valido per eliminare l'allerta!");
+              return false;
+          }
+      }
+
+      return true;
+  }
+
+  // Funzione ausiliaria per validare l'indirizzo IP
+  function isValidIPAddress(ip) {
+      var ipPattern = /^(\d{1,3}\.){3}\d{1,3}$/;
+      return ipPattern.test(ip);
+  }
+</script>
 
 
 

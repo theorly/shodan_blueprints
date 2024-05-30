@@ -43,7 +43,7 @@ def create_alert():
 def delete_alert(): 
 
     if request.method == 'POST': 
-        name = request.form['name'] 
+        name = request.form['name_delete'] 
         logging.info("Resolved AlertID to remove.")
         try: 
             api.delete_alert(aid=name)
