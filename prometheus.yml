@@ -1,6 +1,7 @@
 global:
   scrape_interval:     15s # Frequnza di raccolta delle metriche
   evaluation_interval: 15s # Frequnza di valutazione delle regole di registrazione
+  address: 0.0.0.0
 
 scrape_configs:
   - job_name: 'shodan-app:5000' # Nome del job per la tua app
