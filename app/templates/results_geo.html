@@ -1,95 +1,155 @@
-<!doctype html>
-<head>
-    <title>Shodan-Eye Vulnerability Scanning</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-</head>
-<html>
-    <body>
-        <div class="centrato"> 
-            <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
-            <h1 class="centrato">Shodan-Eye</h1>
-        </div>
+{% extends 'base.html' %}
 
-        <div class="contenuto"> 
-            <ul>
-                <h1>Dettagli Vulnerabilità per l'host {{ ip }}</h1>
-                <p><strong>Status:</strong> {{ message }}</p>
-                <p><strong>Indirizzo IP:</strong> {{ device_info.ip }}</p>
-                <p><strong>Porta:</strong> {{ device_info.port }}</p>
-                <p><strong>Paese:</strong> {{ device_info.country_name }}</p>
-                <p><strong>Città:</strong> {{ device_info.city }}</p>
-                <p><strong>Sistema Operativo:</strong> {{ device_info.os }}</p>
-                <p><strong>Domini:</strong> {{ device_info.domains }}</p>
-                <p><strong>Latitude:</strong> {{ device_info.latitude }}</p>
-                <p><strong>Longitude:</strong> {{ device_info.longitude }}</p>
-                
-                
-                <h1> VULNERABILITY LISTS: </h1>
-                <table> 
-                    <tr>
-                        <th id="id">ID: </th>
-                        <th id="summary">SUMMARY: </th>
-                        <th>CVSS: </th>
-                        <th id="reference">REFERENCE: </th>
-                    </tr>
-                    {% for id, elemento in device_info['vuln'].items() %}
-                    <tr>
-                        <td><strong>{{ id }} </strong></td>
-                        <td><strong>{{elemento[0]}}</strong></td>
-                        <td><strong>{{elemento[1]}}</strong></td>
-                        <td>
-                            <div id="reference-container"> 
-                            {% for reference in elemento[2] %}
-                            <a href="{{ reference}}" >{{reference}}</a><br>
-                            {% endfor %}
-                        </div>
-                        </td>
-                    </tr>
-                    {% endfor %}
-                </table>
+{% block content %}
 
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
 
-                <h1>Dettagli Vulnerabilità nel range selezionato:</h1>
-                
-                <table> 
+        <div class="row center">
+
+            <h5 class="header col s12 light">Results of your scan near {{ device_info.ip }} address!</h5>
+
+            <!-- FIRST TABLE FOR GENERAL INFO -->
+           
+            <table class="striped">
+                <thead>
                     <tr>
-                        <th>IP: </th>
-                        <th>PORT:</th>
+                        <th>Status:</th>
+                        <th>Ip Address:</th>
+                        <th>Port:</th>
+                        <th>Country:</th>
+                        <th>City:</th>
                         <th>OS:</th>
-                        <th>CITY:</th>
-                        <th>COUNTRY:</th>
-                        <th>LATITUDE:</th>
-                        <th>LONGITUDE:</th>
-                        <th>VULNERABILITIES:</th>
+                        <th>Domains:</th>
+                        <th>Latitude - Longitude:</th>
+                        <th>Vulnerability list:</th>
                     </tr>
-                    {% for device_info in device_info.near_devices %}
-                    <tr>
-                        <td><strong>  {{ device_info.ip }} </strong></td>
-                        <td><strong>  {{ device_info.port }} </strong></td>
-                        <td><strong>  {{ device_info.os }} </strong></td>
-                        <td><strong>  {{ device_info.city }} </strong></td>
-                        <td><strong>  {{ device_info.country_name }} </strong></td>
-                        <td><strong>  {{ device_info.latitude }} </strong></td>
-                        <td><strong>  {{ device_info.longitude }} </strong></td>
-                        <td>
-                            
-                            {% for vuln in device_info.vulnerabilities %}
-                            {{vuln}} <br>
+                </thead>
+        
+                <tbody>
+                
+                <tr>
+                    <td>{{message}}</td>
+                    <td>{{device_info.ip}}</td>
+                    <td>{{device_info.port}}</td>
+                    <td>{{device_info.country_name}}</td>
+                    <td>{{device_info.city}}</td>
+                    <td>{{device_info.os}}</td>
+                    <td>{{device_info.domains}}</td>
+                    <td>{{device_info.latitude}} {{device_info.longitude}}</td>
+                    <td id="vuln-container">
+                        <div id="vuln-container" data-references="{{device_info['vuln'].keys() | join(',')}}"> 
+                            {% set keys = device_info['vuln'].keys()|list %}
+                            {% for id in keys[:4] %}
+                                <a>{{ id }}</a><br>
                             {% endfor %}
-                        
+                            <a href="#" class="show-more-link">Show More...</a>
+                        </div>  
+                    </td>
+                    
+                </tr>
+                
+                </tbody>
+            </table>
+
+            <!-- DISPOSITIVI VICINI -->
+            <h5 class="header col s12 light">Devices near the target!</h5>
+
+            <table class="striped">
+                <thead>
+                    <tr>
+                        <th>Ip Address:</th>
+                        <th>Port:</th>
+                        <th>Country:</th>
+                        <th>City:</th>
+                        <th>OS:</th>
+                        <th>Latitude - Longitude:</th>
+                        <th>Vulnerability:</th>
+                    </tr>
+                </thead>
+
+                <tbody id="near-devices-tbody">
+                    {% for device_info in device_info.near_devices %}
+                    <tr class="near-device-row" style="display: none;">
+                        <td>{{device_info.ip}}</td>
+                        <td>{{device_info.port}}</td>
+                        <td>{{device_info.country_name}}</td>
+                        <td>{{device_info.city}}</td>
+                        <td>{{device_info.os}}</td>
+                        <td>{{device_info.latitude}} {{device_info.longitude}}</td>
+                        <td>
+                            <div class="vulns-container" data-references="{{device_info.vulnerabilities | join(',')}}"> 
+                                {% for id in device_info.vulnerabilities[:2] %}
+                                <a>{{ id }}</a><br>
+                                {% endfor %}
+                                <a href="#" class="show-more-link">Show More...</a>
+                            </div>  
                         </td>
                     </tr>
                     {% endfor %}
-                </table>
-                
-             
-                
-        </ul>          
-        </div>
-        <div class="backbutton"> 
-        <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
-    </div>
-    </body>
+                </tbody>
+            </table>
+            <a href="#" id="show-more-rows">Show More Devices...</a>
 
-</html>
+            <br>
+            <br> 
+            <br>
+
+            <div class="backbutton"> 
+                <a href="{{ url_for('main.search') }}" class="btn btn-primary btn-lg px-4 gap-3 orange">Go Back</a>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rows = document.querySelectorAll('.near-device-row');
+    const showMoreRowsBtn = document.getElementById('show-more-rows');
+    let rowsToShow = 5;
+
+    function updateVisibleRows() {
+        rows.forEach((row, index) => {
+            if (index < rowsToShow) {
+                row.style.display = '';
+            } else {
+                row.style.display = 'none';
+            }
+        });
+    }
+
+    showMoreRowsBtn.addEventListener('click', function(event) {
+        event.preventDefault();
+        rowsToShow += 5;
+        updateVisibleRows();
+        if (rowsToShow >= rows.length) {
+            showMoreRowsBtn.style.display = 'none';
+        }
+    });
+
+    updateVisibleRows();
+
+    // Show more vulnerabilities
+    document.querySelectorAll('.show-more-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const referenceContainer = this.parentElement;
+            const references = referenceContainer.getAttribute('data-references').split(',');
+            referenceContainer.innerHTML = references.map(ref => `<a href="#">${ref}</a><br>`).join('') + '<a href="#" class="show-less-link">Show Less...</a>';
+
+            referenceContainer.querySelector('.show-less-link').addEventListener('click', function(event) {
+                event.preventDefault();
+                referenceContainer.innerHTML = references.slice(0, 2).map(ref => `<a href="#">${ref}</a><br>`).join('') + '<a href="#" class="show-more-link">Show More...</a>';
+                referenceContainer.querySelector('.show-more-link').addEventListener('click', link.click);
+            });
+        });
+    });
+});
+</script>
+
+
+
+ {% endblock %}

@@ -11,6 +11,7 @@ logging.basicConfig(level=logging.INFO)
 
 def create_app():
     app = Flask(__name__)
+   
             
     logging.debug('Avvio dell\'applicazione Flask')
 

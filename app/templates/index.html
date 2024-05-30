@@ -1,79 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Shodan-Eye Vulnerability Scanning</title>
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
-        <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-      </head>
-<body>
-    <div class="contenitore">
-    <div class="centrato"> 
-    <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
-    <h1 class="centrato">Shodan-Eye</h1>
-</div>
-    <div class="contenuto"> 
-        <form action="{{url_for('search.search')}}" method="post">
-            <div class="searchbar"> 
-                <label for="ip_address">Insert query:</label>
-                <input type="text" id="ip_address" name="ip_address" placeholder="Search on Shodan an IP TARGET..." style="max-width: 256;" size="50">
-                <label for="expires">Range di km:</label> 
-                <input type="text" id="range" name="range" value="0"> 
-            </div>
-        <label for="name" class="form-label fw-bold fs-5">Immetti la tua query!</label>
-        <br>
-        <button type="submit" class="btn btn-primary btn-lg px-4 gap-3">Search</button>
-        </form>
+{% extends 'base.html' %}
 
-        <br>
-
-        <br>
-        <br>
-
- 
-            <br>
-            <form action="{{url_for('alert.create_alert')}}" method="post">
-                 
-                    <label for="name">Nome Alert:</label> 
-                    <input type="text" pattern="[^ ]*" id="name" name="name" required> 
-             
-                    <label for="net">Rete:</label> 
-                    <input type="text" id="net" name="net" required> 
-             
-                    <label for="expires">Tempo di scadenza (minuti):</label> 
-                    <input type="number" id="expires" name="expires" min="1" value="60" required> 
-             
-                    <button type="submit">Crea Alert</button> 
-                </form> 
-    <br>
-    <br>
-            <br>
-            <br>
-            <form action="{{url_for('alert.delete_alert')}}" method="post">
-                 
-                    <label for="name">Nome Alert:</label> 
-                    <input type="text" pattern="[^ ]*" id="name" name="name" required> 
-             
-                    <button type="submit">Delete Alert</button> 
-                </form> 
+{% block content %}
+     <!-- CENTRAL SECTION -->
+     
+  <div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+      <br><br>
+     
+      <div class="row center">
+        <img src="{{ url_for('static', filename='images/logo.png') }}" alt="Image Description" width="100" height="90">
+        <h1 class="header center orange-text">Shodan-Eye Vulnerability Scanning</h1>
+      </div>
+      
+      <div class="row center">
+        <h5 class="header col s12 light">A modern responsive front-end framework based on Material Design</h5>
+      </div>
+      <div class="row center">
+         <!-- INSERT LINK TO SEARCH AND NETWORK HERE -->
+         
+         <div class="row center">
+            <a href="{{url_for('main.search')}}" id="download-button" class="btn-large waves-effect waves-light orange">Get Started with IPSEARCH</a>
+            <a href="{{url_for('main.alert_service')}}" id="download-button" class="btn-large waves-effect waves-light orange">Get Started with NETWORK ALERT</a>  
+          </div>  
     
-    <br> 
-    <br>
-            <br>
-            <br>
-            <form action="{{url_for('alert.list')}}" method="post">
-             
-                    <button type="submit"> Alert LIST</button> 
-                </form> 
-    
-    <br> 
-    <div class="info"> 
-        <img src="{{ url_for('static', filename='images/info.png') }}" alt="Image info" width="50" height="50">
-        <a href="{{ url_for('main.about')}}">Shodan-Eye</a>
+        <!-- FINISH HERE -->
+      </div>
+      <br><br>
+
     </div>
-</div>
+  </div>
 
-</div>
-</body>
-</html>
+  <!--   Icon Section   -->
+  <div class="row">
+    <div class="col s12 m4">
+      <div class="icon-block">
+        <h2 class="center light-blue-text"><i class="large material-icons">flash_on</i></h2>
+        <h5 class="center">Speeds up development</h5>
+
+        <p class="light">We did most of the heavy lifting for you to provide a default stylings that incorporate our custom components. Additionally, we refined animations and transitions to provide a smoother experience for developers.</p>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="icon-block">
+        <h2 class="center light-blue-text"><i class="large material-icons">security</i></h2> 
+        <h5 class="center">Security</h5>
+
+        <p class="light">By utilizing elements and principles of Material Design, we were able to create a framework that incorporates components and animations that provide more feedback to users. Additionally, a single underlying responsive system across all platforms allow for a more unified user experience.</p>
+      </div>
+    </div>
+
+    <div class="col s12 m4">
+      <div class="icon-block">
+        <h2 class="center light-blue-text"><i class="large material-icons">zoom_out_map</i></h2>
+        <h5 class="center">Scalability</h5>
+
+        <p class="light">We have provided detailed documentation as well as specific code examples to help new users get started. We are also always open to feedback and can answer any questions a user may have about Materialize.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Inserire cards che puntano a Search e gestione alert-->
+
+    
+{% endblock %}

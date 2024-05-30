@@ -5,6 +5,7 @@ import os
 import redis 
 import json
 
+
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
 redis_port = 6379  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
@@ -23,8 +24,8 @@ except redis.exceptions.AuthenticationError as e:
 
 
 
-SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
-#SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
+#SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
 api = shodan.Shodan(SHODAN_API_KEY)
 
 host = Blueprint("search", __name__)
@@ -34,6 +35,7 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
+    
     if ip_address == redis_client.get(ip_address):
         message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))

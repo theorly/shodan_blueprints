@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+
+        <div class="row center">
+            <h5 class="header col s12 light">Insert an IP ADDRESS you want to scan!</h5>
+        </div>
+
+        <div class="row center">
+            <form action="{{url_for('search.search')}}" method="post">
+                <div class="row">
+                    <div class="input-field col s6">
+                    <label for="ip_address">Ip Address</label>
+                    <br>
+                    <input type="text" id="ip_address" name="ip_address" placeholder="Search on Shodan an IP TARGET..."  style="max-width: 256;" size="50">
+                    
+                    </div>
+                    <div class="input-field col s2">
+                    <label for="expires">Range di KM:</label>
+                    <br>
+                    <input id="range" name="range" type="text" value="0">
+                    </div>
+                    <br>
+                    <label for="name" class="form-label fw-bold fs-5">Immetti la tua query!</label>
+                    <br>
+                    <button class="btn waves-effect waves-light orange" type="submit">Submit
+                        <i class="material-icons right orange">send</i>
+                    </button>
+                </div>
+            </form>
+
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

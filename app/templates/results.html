@@ -1,66 +1,123 @@
-<!doctype html>
-<head>
-    <title>Shodan-Eye Vulnerability Scanning</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/styles.css') }}">
-    <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap/css/bootstrap.min.css') }}">
-</head>
-<html>
-    <body>
-        <div class="centrato"> 
-            <img src="{{ url_for('static', filename='images/images.png') }}" alt="Image Description" width="224" height="192">
-            <h1 class="centrato">Shodan-Eye</h1>
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+
+        <div class="row center">
+            <h5 class="header col s12 light">Results of your scan for {{ device_info.ip }} address!</h5>
         </div>
 
-        <div class="contenuto"> 
-            <ul>
+        <div class="row center">
 
-                <h1>Dettagli Vulnerabilità per l'host {{ ip }}</h1>
+            <!-- FIRST TABLE FOR GENERAL INFO -->
+           
+                <table class="striped">
+                    <thead>
+                        <tr>
+                            <th>Status:</th>
+                            <th>Ip Address:</th>
+                            <th>Port:</th>
+                            <th>Country:</th>
+                            <th>City:</th>
+                            <th>OS:</th>
+                            <th>Domains:</th>
+                            <th>Latitude - Longitude:</th>
+                        </tr>
+                    </thead>
+            
+                    <tbody>
+                    
+                    <tr>
+                        <td>{{message}}</td>
+                        <td>{{device_info.ip}}</td>
+                        <td>{{device_info.port}}</td>
+                        <td>{{device_info.country_name}}</td>
+                        <td>{{device_info.city}}</td>
+                        <td>{{device_info.os}}</td>
+                        <td>{{device_info.domains}}</td>
+                        <td>{{device_info.latitude}} {{device_info.longitude}}</td>
+                    </tr>
+                    
+                    </tbody>
+                </table>
 
+            <!-- TABLE FOR VULNERABILITIES-->
 
-                <p><strong>Status:</strong> {{ message }}</p>
-                <p><strong>Indirizzo IP:</strong> {{ device_info.ip }}</p>
-                <p><strong>Porta:</strong> {{ device_info.port }}</p>
-                <p><strong>Paese:</strong> {{ device_info.country_name }}</p>
-                <p><strong>Città:</strong> {{ device_info.city }}</p>
-                <p><strong>Sistema Operativo:</strong> {{ device_info.os }}</p>
-                <p><strong>Domini:</strong> {{ device_info.domains }}</p>
-                <p><strong>Latitude:</strong> {{ device_info.latitude }}</p>
-                <p><strong>Longitude:</strong> {{ device_info.longitude }}</p>
-                
-                
-                <h1> VULNERABILITY LISTS: </h1>
-                <table> 
+            <h5 class="header col s12 light">Vulnerability list</h5>
+
+            <table class="responsive-table">
+                <thead>
                     <tr>
                         <th id="id">ID: </th>
                         <th id="summary">SUMMARY: </th>
                         <th>CVSS: </th>
                         <th id="reference">REFERENCE: </th>
                     </tr>
+                </thead>
+        
+                <tbody>
+                
+                <tr>
                     {% for id, elemento in device_info['vuln'].items() %}
                     <tr>
                         <td><strong>{{ id }} </strong></td>
                         <td><strong>{{elemento[0]}}</strong></td>
                         <td><strong>{{elemento[1]}}</strong></td>
-                        <td>
-                            <div id="reference-container"> 
-                            {% for reference in elemento[2] %}
-                            <a href="{{ reference}}" >{{reference}}</a><br>
-                            {% endfor %}
-                        </div>
+                        <td id="reference-container">
+                            <div id="reference-container" data-references="{{elemento[2] | join(',')}}"> 
+                                {% for reference in elemento[2][:3] %}
+                                <a href="{{ reference}}" >{{reference}}</a><br>
+                                {% endfor %}
+                                <a href="#" class="show-more-link">Show More...</a>
+                            </div>
+                            
                         </td>
                     </tr>
                     {% endfor %}
-                </table>
-            
+                </tr>
                 
-        </ul>       
+                </tbody>
+            </table>
+            
+            
+
+
+            <br>
+            <br>
+            <div class="backbutton"> 
+                <a href="{{ url_for('main.search') }}" class="btn btn-primary btn-lg px-4 gap-3 orange">Go Back</a>
+            </div>
+            
+                    
+
         </div>
-        <div class="backbutton"> 
-        <a href="{{ url_for('main.home') }}" class="btn btn-primary btn-lg px-4 gap-3">Back home</a>
 
-        
+
     </div>
+</div>
 
-    </body>
-    <script src='../static/bootstrap/js/script.js'></script>
-</html>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const showMoreLinks = document.querySelectorAll('.show-more-link');
+
+    showMoreLinks.forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault();
+            const referenceContainer = this.parentElement;
+            const references = referenceContainer.getAttribute('data-references').split(',');
+            referenceContainer.innerHTML = references.map(ref => `<a href="${ref}">${ref}</a><br>`).join('') + '<a href="#" class="show-less-link">Show Less...</a>';
+
+            const showLessLink = referenceContainer.querySelector('.show-less-link');
+            showLessLink.addEventListener('click', function(event) {
+                event.preventDefault();
+                referenceContainer.innerHTML = references.slice(0, 3).map(ref => `<a href="${ref}">${ref}</a><br>`).join('') + '<a href="#" class="show-more-link">Show More...</a>';
+            });
+        });
+    });
+});
+</script>
+
+
+{% endblock %}

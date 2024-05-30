@@ -1,0 +1,93 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="section no-pad-bot" id="index-banner">
+    <div class="container">
+
+        <div class="row center">
+            <h5 class="header col s12 light">Shodan-Eye Alert Service</h5>
+            
+            <br> 
+            <br> 
+            <br> 
+
+            <h5 class="header col s12 light">Create alert</h5>
+            <br>
+            <br> 
+            <!-- INSERT FORM FOR CREATE ALERT -->
+            <div class="row center">
+                <form action="{{url_for('alert.create_alert')}}" method="post"> 
+                
+                  <div class="input-field col s2">
+                    <label for="name">Alert name</label>
+                    <br>
+                    <input type="text" id="name" name = "name" pattern="[^ ]*" required>
+                  </div>
+                  <div class="input-field col s2">
+                    <label for="net">Network:</label>
+                    <br>
+                    <input  type="text" id="net" name="net" required>
+                  </div>
+
+                  <div class="input-field col s2">
+                    <label for="trigger">Triggers:</label>
+                    <br>
+                    <input  type="text" id="trigger" name="trigger" value="any">
+                  </div>
+                  
+                  <div class="input-field col s2"> 
+                    <label for="expires">Tempo di scadenza (minuti):</label> 
+                    <br>
+                    <input type="number" id="expires" name="expires" min="1" value="60" required> 
+                  </div>
+                  <br> 
+                  <br> 
+                  <button class="btn-floating waves-effect waves-light orange" type="submit">
+                    <i class="material-icons orange">send</i>
+                  </button>     
+                </form>
+            </div>
+
+            <!-- DELETE ALERT FORM-->
+            <h5 class="header col s12 light">Delete alert</h5>
+            <br>
+            <br> 
+            <div class="row center-content">
+                <form action="{{url_for('alert.delete_alert')}}" method="post"> 
+                  <div class="input-field col s5 l3">
+                    <label for="name">Alert name</label>
+                    <br>
+                    <input type="text" id="name" name ="name" pattern="[^ ]*" required>
+                  </div>
+
+                <br>
+                <br>
+
+                <button class="btn-floating waves-effect waves-light orange center-align" type="submit">
+                    <i class="material-icons right orange">delete</i>
+                </button>     
+                </form>
+            </div>
+
+            <!-- LIST ALERT FORM-->
+            <h5 class="header col s12 light">Alert now active!</h5>
+            <br>
+            <br> 
+            <div class="row center-align">
+                <form action="{{url_for('alert.list')}}" method="post">
+                  <br>
+                  <button class="btn-large waves-effect waves-light orange pulse" type="submit" name="action">ALERT ACTIVE
+                    <i class="material-icons left orange">filter_list</i>
+                  </button>
+                </form>
+            </div>
+
+        </div>
+
+
+    </div>
+</div>
+
+
+
+{% endblock %}

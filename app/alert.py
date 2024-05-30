@@ -6,8 +6,8 @@ import os
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)    
 
-SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
-#SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
+#SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
 
 api = shodan.Shodan(SHODAN_API_KEY)
 
@@ -21,19 +21,16 @@ def create_alert():
         name = request.form['name'] 
         net = request.form['net'] 
         expires = int(request.form['expires']) 
+        trigger = request.form['trigger']
         logging.info("Resolved name-net-expires from the index page.")
         try: 
                 alert = api.create_alert(name, net, expires=expires) 
-                 # add the alert to the trigger
-                trigger = 'any'
+                # add the alert to the trigger
                 trigger = api.enable_alert_trigger(aid=alert['id'], trigger=trigger)
-
         
                 # print the alert status
                 message = api.alerts(aid=alert['id'])
     
-
-                #message = (f"Alert '{name}' creato con successo.\n  ")
                 return render_template('create_alert.html', message=message, name = name, net = net, expires=expires)
                 
         except shodan.APIError as e: 
@@ -49,9 +46,6 @@ def delete_alert():
         name = request.form['name'] 
         logging.info("Resolved AlertID to remove.")
         try: 
-            #command = f'shodan alert remove {name}'
-            #result = subprocess.run(command, capture_output=True, text=True)
-            #print(f"Comando eseguito con successo:\n{result.stdout}")
             api.delete_alert(aid=name)
             message = (f"Alert '{name}' distrutto con successo.\n")
             return render_template('delete_alert.html', message=message, name = name)
@@ -76,5 +70,5 @@ def list():
             'ip' : i['filters']['ip']
         } 
         lista.append(alert_list)     
-   
+    
     return render_template('alert_list.html',  info = lista)
