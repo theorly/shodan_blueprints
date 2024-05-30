@@ -1,10 +1,12 @@
 from flask import Blueprint, render_template
 import logging
+from prometheus_client import Counter, REGISTRY, generate_latest, CONTENT_TYPE_LATEST
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)       
 
+REQUEST_COUNT_MAIN = Counter('http_requests_total_main', 'Total HTTP Requests', ['method', 'endpoint'])
 
 
 main = Blueprint("main", __name__)
@@ -12,7 +14,12 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def home():
     logging.info('Richiesta ricevuta per la rotta index /')
+    REQUEST_COUNT_MAIN.labels(method='GET', endpoint='/').inc()
     return render_template('index.html')
+
+@main.route('/metrics')
+def metrics():
+    return generate_latest(REGISTRY), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 @main.route("/search")
 def search():

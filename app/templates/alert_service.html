@@ -109,11 +109,14 @@
       }
 
       // Controlla se il campo "trigger" contiene valori validi
-      var allowedTriggers = ['new_service', 'malware', 'open_database', 'iot', 'vulnerable', 'ssl_expired', 'industrial_control_system', 'internet_scanner'];
+      var allowedTriggers = ['any', 'new_service', 'malware', 'open_database', 'iot', 'vulnerable', 'ssl_expired', 'industrial_control_system', 'internet_scanner'];
       var triggerValues = trigger.split(',').map(function(item) { return item.trim(); });
       for (var i = 0; i < triggerValues.length; i++) {
           if (!allowedTriggers.includes(triggerValues[i])) {
-              alert("Il campo 'Trigger' contiene un valore non valido: " + triggerValues[i]);
+              alert("Il campo 'Trigger' contiene un valore non valido: " + triggerValues[i] + "\n" + 
+              "Deve corrispondere a uno dei seguenti valori: " + allowedTriggers.join(", ")
+              );
+              
               return false;
           }
       }
