@@ -4,9 +4,4 @@ COPY prometheus.yml /etc/prometheus/prometheus.yml
 
 EXPOSE 9090
 
-ENTRYPOINT ["/bin/prometheus",
-            "--config.file=/etc/prometheus/prometheus.yml",
-            "--storage.tsdb.path=/prometheus",
-            "--web.console.templates=/etc/prometheus/consoles",
-            "--web.console.libraries=/etc/prometheus/console_libraries",
-            "--log.level=info"]
+ENTRYPOINT ["/bin/prometheus"]
