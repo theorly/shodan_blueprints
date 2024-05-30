@@ -109,11 +109,14 @@
               return false;
           }
 
-          // Controlla se il campo "trigger" corrisponde a uno dei valori consentiti
+          // Controlla se il campo "trigger" contiene valori validi
           var allowedTriggers = ['new_service', 'malware', 'open_database', 'iot', 'vulnerable', 'ssl_expired', 'industrial_control_system', 'internet_scanner'];
-          if (!allowedTriggers.includes(trigger)) {
-              alert("Il campo 'Trigger' deve corrispondere a uno dei seguenti valori: " + allowedTriggers.join(", "));
-              return false;
+          var triggerValues = trigger.split(',').map(function(item) { return item.trim(); });
+          for (var i = 0; i < triggerValues.length; i++) {
+              if (!allowedTriggers.includes(triggerValues[i])) {
+                  alert("Il campo 'Trigger' contiene un valore non valido: " + triggerValues[i]);
+                  return false;
+              }
           }
 
           // Controlla se il campo "expires" è un numero positivo
@@ -124,14 +127,9 @@
       }
       
       // Controllo per il form di eliminazione di alert
-      if (document.getElementById('name_delete')) {
-          var name_delete = document.getElementById('name_delete').value.trim();
-
-          // Controlla se il campo "name" è vuoto
-          if (name_delete === '') {
-              alert("Inserisci un nome valido per eliminare l'allerta!");
-              return false;
-          }
+      if (document.getElementById('name_delete') && document.getElementById('name_delete').value.trim() === '') {
+          alert("Inserisci un nome valido per eliminare l'allerta!");
+          return false;
       }
 
       return true;
@@ -143,6 +141,7 @@
       return ipPattern.test(ip);
   }
 </script>
+
 
 
 
