@@ -2,6 +2,12 @@ from flask import Blueprint, render_template, request
 import shodan 
 import logging
 import os 
+from prometheus_client import Counter, REGISTRY, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_flask_exporter import PrometheusMetrics
+
+
+REQUEST_COUNT_SEARCH = Counter('http_requests_total_alert', 'Total HTTP Requests', ['method', 'endpoint'])
+metrics = PrometheusMetrics.for_app_factory()
 
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)    
@@ -15,6 +21,7 @@ alert = Blueprint("alert", __name__)
 
 
 @alert.route('/create_alert', methods=['POST']) 
+@metrics.counter('create_alert_requests', 'Number of requests to the create_alert endpoint')
 def create_alert(): 
       
     if request.method == 'POST': 
@@ -44,6 +51,7 @@ def create_alert():
 
 
 @alert.route('/delete_alert', methods=['POST']) 
+@metrics.counter('delete_alert_requests', 'Number of requests to the delete_alert endpoint')
 def delete_alert(): 
 
     if request.method == 'POST': 
@@ -60,6 +68,7 @@ def delete_alert():
 
 
 @alert.route('/alert_list', methods=['POST']) 
+@metrics.counter('alert_list_requests', 'Number of requests to the alert_list endpoint')
 def list(): 
     
     alerts = api.alerts()

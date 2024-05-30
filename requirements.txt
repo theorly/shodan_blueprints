@@ -2,3 +2,4 @@ Flask
 shodan 
 redis
 prometheus_client
+prometheus_flask_exporter

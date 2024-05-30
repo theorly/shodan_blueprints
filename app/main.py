@@ -1,6 +1,7 @@
 from flask import Blueprint, render_template
 import logging
 from prometheus_client import Counter, REGISTRY, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_flask_exporter import PrometheusMetrics
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
@@ -10,8 +11,10 @@ REQUEST_COUNT_MAIN = Counter('http_requests_total_main', 'Total HTTP Requests', 
 
 
 main = Blueprint("main", __name__)
+metrics = PrometheusMetrics.for_app_factory()
 
 @main.route("/")
+@metrics.counter('home_requests', 'Number of requests to the main endpoint')
 def home():
     logging.info('Richiesta ricevuta per la rotta index /')
     REQUEST_COUNT_MAIN.labels(method='GET', endpoint='/').inc()

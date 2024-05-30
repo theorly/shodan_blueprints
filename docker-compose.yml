@@ -7,4 +7,25 @@ services:
     container_name: shodan-app
     ports:
       - "5000:5000"
- 
+    networks:
+      - mynetwork
+  grafana:
+    build: 
+      dockerfile: Dockerfile_grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - mynetwork
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    ports:
+      - "9090:9090"
+    networks:
+      - mynetwork
+
+networks:
+  mynetwork:
+    driver: bridge
