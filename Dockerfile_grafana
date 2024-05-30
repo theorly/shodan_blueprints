@@ -1,0 +1,11 @@
+# Usa un'immagine di base di Grafana
+FROM grafana/grafana:latest
+
+# Copia i file di configurazione personalizzati, se necessario
+#COPY custom-config.ini /etc/grafana/grafana.ini
+
+# Esponi la porta di Grafana
+EXPOSE 3000
+
+# Avvia Grafana al momento del lancio del container
+CMD ["grafana-server", "-config=/etc/grafana/grafana.ini"]
