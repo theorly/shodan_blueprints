@@ -1,5 +1,9 @@
 version: '3.9'
 
+networks:
+  mynetwork:
+    driver: bridge
+
 services:
   shodan-app:
     build: 
@@ -27,6 +31,3 @@ services:
     networks:
       - mynetwork
 
-networks:
-  mynetwork:
-    driver: bridge
