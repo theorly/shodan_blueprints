@@ -1,0 +1,8 @@
+# Usa l'immagine base di Nginx
+FROM nginx:latest
+
+# Copia il file di configurazione nginx.conf nella directory di configurazione di Nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Espone la porta 80
+EXPOSE 80
