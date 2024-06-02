@@ -3,6 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import LoginManager
 import shodan
 import logging
+from prometheus_flask_exporter import PrometheusMetrics
 
 from app import main
 from app import search
@@ -52,6 +53,8 @@ def create_app():
     app.register_blueprint(main.main)
     app.register_blueprint(search.host)
     app.register_blueprint(alert.alert)
+
+    metrics = PrometheusMetrics(app)
 
     return app
 

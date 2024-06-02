@@ -3,4 +3,7 @@ shodan
 redis
 sqlalchemy
 flask_sqlalchemy
-flask_login
+flask_l
+ogin
+prometheus_client
+prometheus_flask_exporter

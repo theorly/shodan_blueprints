@@ -4,11 +4,17 @@ import shodan
 import logging
 import os 
 import redis 
+from prometheus_client import Counter, REGISTRY, generate_latest, CONTENT_TYPE_LATEST
+from prometheus_flask_exporter import PrometheusMetrics
+
 import json
 from . import db
 from app.models import HistoryIp
 
+REQUEST_COUNT_SEARCH = Counter('http_requests_total_search', 'Total HTTP Requests', ['method', 'endpoint'])
+metrics = PrometheusMetrics.for_app_factory()
 
+ 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
 redis_port = 6379  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
@@ -34,6 +40,7 @@ api = shodan.Shodan(SHODAN_API_KEY)
 host = Blueprint("search", __name__)
 
 @host.route("/search", methods=['POST'])
+@metrics.counter('search_requests', 'Number of requests to the search endpoint')
 def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
@@ -148,5 +155,7 @@ def search():
         message = str(e)
         return render_template('results.html' , message = message, device_info = dict(), context = dict())
     
+
+
 
 

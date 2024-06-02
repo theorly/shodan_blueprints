@@ -1,9 +1,53 @@
-version: '3.9'
+version: '3.8'
+
+networks:
+  mynetwork:
+    driver: bridge
 
 services:
   shodan-app:
+    image: shodan.azurecr.io/shodantry:latest
     build: 
+      context: .
       dockerfile: Dockerfile
     container_name: shodan-app
+    expose:
+      - "5000"
+    networks:
+      - mynetwork
+  prometheus:
+    image: shodan.azurecr.io/shodanprom:latest 
+    build: 
+      context: .
+      dockerfile: Dockerfile_prometheus
+    container_name: prometheus
+    expose:
+      - "9090"
+    networks:
+      - mynetwork
+  grafana:
+    image: shodan.azurecr.io/shodangraf:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_grafana
+    container_name: grafana
+    environment:
+      - GF_SERVER_ROOT_URL=http://shodantry.azurewebsites.net/grafana/
+    expose:
+      - "3000"
+    networks:
+      - mynetwork
+  nginx:
+    image: shodan.azurecr.io/shodannginx:latest
+    build:
+      context: .
+      dockerfile: Dockerfile_nginx
+    container_name: nginx_proxy
     ports:
-      - "5000:5000"
+      - "80:80"
+    depends_on:
+      - shodan-app
+      - prometheus
+      - grafana
+    networks:
+      - mynetwork

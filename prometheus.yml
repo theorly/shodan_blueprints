@@ -1,0 +1,8 @@
+global:
+  scrape_interval:     15s # Frequnza di raccolta delle metriche
+  evaluation_interval: 15s # Frequnza di valutazione delle regole di registrazione
+
+scrape_configs:
+  - job_name: 'shodan-app:5000' # Nome del job per la tua app
+    static_configs:
+      - targets: ['shodan-app:5000'] # Indirizzo della tua app Flask

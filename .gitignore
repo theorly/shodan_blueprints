@@ -1,2 +1,6 @@
 /newvenv
+.venv
 /app/__pycache__
+app.log
+test_compose.yml
+old.yml
