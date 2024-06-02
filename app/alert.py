@@ -12,15 +12,13 @@ metrics = PrometheusMetrics.for_app_factory()
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)    
 
-api = current_app.config['API_SHODAN']
-
 alert = Blueprint("alert", __name__)
 
 
 @alert.route('/create_alert', methods=['POST']) 
 @metrics.counter('create_alert_requests', 'Number of requests to the create_alert endpoint')
 def create_alert(): 
-      
+    api = current_app.config['API_SHODAN']
     if request.method == 'POST': 
         name = request.form['name'] 
         net = request.form['net'] 
@@ -50,7 +48,7 @@ def create_alert():
 @alert.route('/delete_alert', methods=['POST']) 
 @metrics.counter('delete_alert_requests', 'Number of requests to the delete_alert endpoint')
 def delete_alert(): 
-
+    api = current_app.config['API_SHODAN']
     if request.method == 'POST': 
         name = request.form['name_delete'] 
         logging.info("Resolved AlertID to remove.")
@@ -67,7 +65,7 @@ def delete_alert():
 @alert.route('/alert_list', methods=['POST']) 
 @metrics.counter('alert_list_requests', 'Number of requests to the alert_list endpoint')
 def list(): 
-    
+    api = current_app.config['API_SHODAN']
     alerts = api.alerts()
     logging.info("Resolved alert lists.")
     lista = []

@@ -23,10 +23,12 @@
             <a href="{{url_for('main.alert_service')}}" id="download-button" class="btn-large waves-effect waves-light orange">Get Started with NETWORK ALERT</a>  
           </div>  
 
-          <p>Ultime Ricerche per vedere se fa</p>
+        
         {% for historyIp in historyIpUser %}
+        <p>Ultime Ricerche per vedere se fa</p>
             <div class="historyIp">
-                <p>{{ historyIp.ip }}</p>
+                <p>{{ historyIp.ip }} </p>
+                <p>{{ historyIp.range }} </p>
             </div>
         {% endfor %}
     
