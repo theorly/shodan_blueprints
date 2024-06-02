@@ -1,3 +1,6 @@
 Flask
 shodan 
 redis
+sqlalchemy
+flask_sqlalchemy
+flask_login

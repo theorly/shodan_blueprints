@@ -1,5 +1,7 @@
 from flask import Blueprint, render_template
+from flask_login import login_required, current_user
 import logging
+from app.models import HistoryIp
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
@@ -12,7 +14,11 @@ main = Blueprint("main", __name__)
 @main.route("/")
 def home():
     logging.info('Richiesta ricevuta per la rotta index /')
-    return render_template('index.html')
+    if current_user.is_authenticated:
+        historyIpUser = HistoryIp.query.filter_by(emailUser=current_user.email)
+        return render_template('index.html', historyIpUser=historyIpUser)
+    else:
+        return render_template('index.html')
 
 @main.route("/search")
 def search():
@@ -28,3 +34,8 @@ def alert_service():
 def about():
     logging.info('Richiesta ricevuta per la rotta team /')
     return render_template("team.html")
+
+@main.route('/profile')
+@login_required # per garantire l'accesso solo ad utenti registrati
+def profile():
+    return render_template('profile.html', name=current_user.name)

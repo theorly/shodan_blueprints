@@ -1,9 +1,12 @@
 from flask import Blueprint, render_template, request
+from flask_login import current_user
 import shodan 
 import logging
 import os 
 import redis 
 import json
+from . import db
+from app.models import HistoryIp
 
 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
@@ -35,6 +38,13 @@ def search():
     ip_address = request.form['ip_address']
     range_km = request.form["range"]
 
+    if current_user.is_authenticated:
+        emailUser = current_user.email
+        new_historyIp = HistoryIp(ip=ip_address, emailUser=emailUser, range=range_km)
+
+        # add the new historyIp to the database
+        db.session.add(new_historyIp)
+        db.session.commit()
     
     if ip_address == redis_client.get(ip_address):
         message = "Retrieved from RedisCache!"

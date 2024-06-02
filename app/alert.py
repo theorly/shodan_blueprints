@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, current_app
 import shodan 
 import logging
 import os 
@@ -6,10 +6,7 @@ import os
 #logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)    
 
-#SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
-SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
-
-api = shodan.Shodan(SHODAN_API_KEY)
+api = current_app.config['API_SHODAN']
 
 alert = Blueprint("alert", __name__)
 
