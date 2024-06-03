@@ -1,35 +1,35 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="column is-4 is-offset-4">
-    <h3 class="title">Login</h3>
-    <div class="box">
+<div class="section no-pad-bot" id="index-banner">
+    <h3 class="header center orange-text">Login</h3>
+    <div class="materialboxed">
         {% with messages = get_flashed_messages() %}
         {% if messages %}
-        <div class="notification is-danger">
+        <div class="materialize-red-text">
             {{ messages[0] }}
         </div>
         {% endif %}
         {% endwith %}
         <form method="POST" action="/login">
             <div class="row center">
-                <div class="control">
-                    <input class="input is-large" type="email" name="email" placeholder="Your Email" autofocus="">
-                </div>
+                <input type="email" name="email" placeholder="Your Email" style="max-width: 50;" size="50" autofocus="">
             </div>
 
             <div class="row center">
-                <div class="control">
-                    <input class="input is-large" type="password" name="password" placeholder="Your Password">
-                </div>
+                    <input type="password" name="password" style="max-width: 50;" size="50" placeholder="Your Password">
             </div>
+
             <div class="row center">
                 <label class="checkbox">
                     <input type="checkbox" name="remember">
-                    Remember me(Non funziona)
+                    Remember me
                 </label>
             </div>
-            <button class="button is-block is-info is-large is-fullwidth">Login</button>
+            <div class="row center">
+                <button class="btn waves-effect waves-light orange">Login</button>
+            </div>
+            
         </form>
     </div>
 </div>
