@@ -15,7 +15,7 @@ REQUEST_COUNT_SEARCH = Counter('http_requests_total_search', 'Total HTTP Request
 metrics = PrometheusMetrics.for_app_factory()
 
 #TODO da decommentare per Azure
-
+ 
 redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
 redis_port = 6379  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
