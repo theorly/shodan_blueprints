@@ -6,7 +6,7 @@ networks:
 
 services:
   shodan-app:
-    image: shodan.azurecr.io/shodantry:latest
+    image: shodan.azurecr.io/shodantry_login:latest
     build: 
       context: .
       dockerfile: Dockerfile
