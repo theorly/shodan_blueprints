@@ -23,12 +23,12 @@ jobs:
       uses: docker/login-action@v2
       with:
         registry: https://shodan.azurecr.io/
-        username: ${{ secrets.AzureAppService_ContainerUsername_9b6feda65c124ec8b4b49daaa538d5f7 }}
-        password: ${{ secrets.AzureAppService_ContainerPassword_09138efc1bc1464da273ef2e0d44eacf }}
+        username: ${{ secrets.AzureAppService_ContainerUsername_1cd0f9c207a942a9858e9845ae36bd60 }}
+        password: ${{ secrets.AzureAppService_ContainerPassword_092b8c26753a4be5b287f24aaaa7c288 }}
 
-    - name: Build and push container image to registry
+    - name: Build and push
       run: |
-        docker-compose -f docker-compose.yml build
+        docker-compose -f custom-docker-compose.yml build
       env:
         DOCKER_BUILDKIT: 1
 
@@ -46,5 +46,5 @@ jobs:
       with:
         app-name: 'shodantry'
         slot-name: 'production'
-        publish-profile: ${{ secrets.AzureAppService_PublishProfile_26174a3d86ec48d9933c6f7cc896f830 }}
-        images: 'shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_9b6feda65c124ec8b4b49daaa538d5f7 }}/shodantry:${{ github.sha }}'
+        publish-profile: ${{ secrets.AzureAppService_PublishProfile_f9b94bf7d92d4713ad0b94c6511827cf }}
+        images: 'shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_1cd0f9c207a942a9858e9845ae36bd60 }}/shodantry_login:${{ github.sha }}'
