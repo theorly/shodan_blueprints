@@ -26,12 +26,11 @@ jobs:
         username: ${{ secrets.AzureAppService_ContainerUsername_1cd0f9c207a942a9858e9845ae36bd60 }}
         password: ${{ secrets.AzureAppService_ContainerPassword_092b8c26753a4be5b287f24aaaa7c288 }}
 
-    - name: Build and push container image to registry
-      uses: docker/build-push-action@v3
-      with:
-        push: true
-        tags: shodan.azurecr.io/${{ secrets.AzureAppService_ContainerUsername_1cd0f9c207a942a9858e9845ae36bd60 }}/shodantry_login:${{ github.sha }}
-        file: ./Dockerfile
+    - name: Build and push
+      run: |
+        docker-compose -f custom-docker-compose.yml build
+      env:
+        DOCKER_BUILDKIT: 1
 
   deploy:
     runs-on: ubuntu-latest
