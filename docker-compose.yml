@@ -6,8 +6,7 @@ networks:
 
 services:
   shodan-app:
-    #image: shodan.azurecr.io/shodan:latest
-    image: shodanlocal:latest
+    image: shodan.azurecr.io/shodan:latest
     build: 
       context: .
       dockerfile: Dockerfile
@@ -33,7 +32,7 @@ services:
       dockerfile: Dockerfile_grafana
     container_name: grafana
     environment:
-      - GF_SERVER_ROOT_URL=http://shodantry.azurewebsites.net/grafana/
+      - GF_SERVER_ROOT_URL=http://shodanscanning.azurewebsites.net/grafana/
     expose:
       - "3000"
     networks:

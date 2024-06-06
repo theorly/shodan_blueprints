@@ -15,24 +15,24 @@ REQUEST_COUNT_SEARCH = Counter('http_requests_total_search', 'Total HTTP Request
 metrics = PrometheusMetrics.for_app_factory()
 
 #TODO da decommentare per Azure
-""" 
-redis_host = "shocache.redis.cache.windows.net"  # Sostituisci con l'indirizzo host
-redis_port = 6379  # Porta Redis standard
+ 
+redis_host = os.environ["REDIS_HOST"]  # Sostituisci con l'indirizzo host
+redis_port = os.environ["REDIS_PORT"]  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
-"""
+
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO)    
 logging.basicConfig(level=logging.INFO)    
 
 #TODO da decommentare per Azure
-"""
+
 try:
     redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw, ssl=False)
     logging.info("Connected to Redis server successfully!")
 except redis.exceptions.AuthenticationError as e:
     logging.error(e)
-"""
+
 
 host = Blueprint("search", __name__)
 
@@ -50,8 +50,9 @@ def search():
         # add the new historyIp to the database
         db.session.add(new_historyIp)
         db.session.commit()
-        #TODO da decommentare per Azure
-    """
+        
+    #TODO da decommentare per Azure
+    
     if ip_address == redis_client.get(ip_address):
         message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))
@@ -63,7 +64,7 @@ def search():
         retrieved_info =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {ranged_value} successfull!!")
         return render_template('results_geo.html' , message = message, device_info = retrieved_info)
-    """
+    
     logging.info("Resolved ip_address and range from the index.html")
     
     try:
@@ -138,7 +139,7 @@ def search():
             print("Trying to write on cache the result. \n")
             relevant_info_json = json.dumps(relevant_info)
             #TODO da decommentare per Azure
-            #redis_client.set(f"{ip_address}_{range_km}", relevant_info_json)
+            redis_client.set(f"{ip_address}_{range_km}", relevant_info_json)
             print("Wirting on cache successful! \n")
             return render_template('results_geo.html' , message = message, device_info = relevant_info)
         
@@ -147,7 +148,7 @@ def search():
             print("Trying to write on cache the result. \n")
             relevant_info_json = json.dumps(relevant_info)
             #TODO da decommentare per Azure
-            #redis_client.set(f"{ip_address}", relevant_info_json)
+            redis_client.set(f"{ip_address}", relevant_info_json)
             print("Wirting on cache successful! \n")
             return render_template('results.html' , message = message, device_info = relevant_info)
     

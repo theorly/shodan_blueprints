@@ -20,11 +20,8 @@ metrics = PrometheusMetrics.for_app_factory()
 def home():
     REQUEST_COUNT_MAIN.labels(method='GET', endpoint='/').inc()
     logging.info('Richiesta ricevuta per la rotta index /')
-    if current_user.is_authenticated:
-        historyIpUser = HistoryIp.query.filter_by(emailUser=current_user.email)
-        return render_template('index.html', historyIpUser=historyIpUser)
-    else:
-        return render_template('index.html')
+    
+    return render_template('index.html')
 
 @main.route('/metrics')
 def metrics():
@@ -48,4 +45,8 @@ def about():
 @main.route('/profile')
 @login_required # per garantire l'accesso solo ad utenti registrati
 def profile():
-    return render_template('profile.html', name=current_user.name)
+    if current_user.is_authenticated:
+        historyIpUser = HistoryIp.query.filter_by(emailUser=current_user.email)
+        return render_template('profile.html', name=current_user.name, historyIpUser=historyIpUser)
+    else: 
+        return render_template('profile.html', name=current_user.name)
