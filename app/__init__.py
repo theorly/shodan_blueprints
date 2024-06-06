@@ -5,12 +5,7 @@ import shodan
 import logging
 import os
 from prometheus_flask_exporter import PrometheusMetrics
-from app.models import User
 
-from app import main
-from app import search
-from app import alert
-from app import auth
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO)  
@@ -24,8 +19,8 @@ def create_app():
 
 
     #TODO da modificare per azure
-    SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
-    #SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
+    #SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+    SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
     app.config['SECRET_KEY'] = SHODAN_API_KEY
     app.config['API_SHODAN'] = shodan.Shodan(SHODAN_API_KEY)
     #TODO mettere in var globali url e pass e #TODO fare un file config.py a parte
@@ -40,16 +35,20 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-  
+    import app.models as models 
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
-        return User.query.get(int(user_id))
+        return models.User.query.get(int(user_id))
     
     with app.app_context():
         db.create_all()
 
     # blueprint for auth routes in our app
+    from app import main
+    from app import search
+    from app import alert
+    from app import auth    
    
     app.register_blueprint(auth.auth)
     app.register_blueprint(main.main)
