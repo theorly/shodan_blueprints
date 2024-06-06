@@ -5,6 +5,12 @@ import shodan
 import logging
 import os
 from prometheus_flask_exporter import PrometheusMetrics
+from app.models import User
+
+from app import main
+from app import search
+from app import alert
+from app import auth
 
 
 #logging.basicConfig(filename='app.log', level=logging.INFO)  
@@ -15,6 +21,8 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
+
+
     #TODO da modificare per azure
     SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
     #SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
@@ -24,6 +32,7 @@ def create_app():
     #app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://sambu:sambu@localhost/db_shodan'
     app.config['SQLALCHEMY_DATABASE_URI'] = f'postgresql://shodanpostgresql:I3moschettieri_@shodanpostgresqlserver.postgres.database.azure.com:5432/postgres?sslmode=require'
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    
 
     db.init_app(app)
 
@@ -31,7 +40,7 @@ def create_app():
     login_manager.login_view = 'auth.login'
     login_manager.init_app(app)
 
-    from .models import User
+  
     @login_manager.user_loader
     def load_user(user_id):
         # since the user_id is just the primary key of our user table, use it in the query for the user
@@ -39,23 +48,19 @@ def create_app():
     
     with app.app_context():
         db.create_all()
+
+    # blueprint for auth routes in our app
+   
+    app.register_blueprint(auth.auth)
+    app.register_blueprint(main.main)
+    app.register_blueprint(search.host)
+    app.register_blueprint(alert.alert)
+
+
+    metrics = PrometheusMetrics(app)
             
             
     logging.debug('Avvio dell\'applicazione Flask')
-
-    # blueprint for auth routes in our app
-    from .auth import auth as auth_blueprint
-    app.register_blueprint(auth_blueprint)
-
-
-    from .main import main as main_blueprint
-    app.register_blueprint(main_blueprint)
-    from .search import host as search_blueprint
-    app.register_blueprint(search_blueprint)
-    from .alert import alert as alert_blueprint
-    app.register_blueprint(alert_blueprint)
-
-    metrics = PrometheusMetrics(app)
 
     return app
 

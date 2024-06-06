@@ -6,13 +6,11 @@ networks:
 
 services:
   shodan-app:
-    image: shodan.azurecr.io/shodantry_login:latest
+    image: shodan.azurecr.io/shodan:latest
     build: 
       context: .
       dockerfile: Dockerfile
     container_name: shodan-app
-    environment:
-      - DATABASE_URL = postgresql://shodanpostgresql:I3moschettieri_@shodanpostgresqlserver.postgres.database.azure.com:5432/postgres?sslmode=require
     expose:
       - "5000"
     networks:
