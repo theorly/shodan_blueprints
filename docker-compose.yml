@@ -11,6 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile
     container_name: shodan-app
+    environment:
+      - DATABASE_URL = postgresql://shodanpostgresql:I3moschettieri_@shodanpostgresqlserver.postgres.database.azure.com:5432/postgres?sslmode=require
     expose:
       - "5000"
     networks:
