@@ -14,18 +14,11 @@ from app.models import HistoryIp
 REQUEST_COUNT_SEARCH = Counter('http_requests_total_search', 'Total HTTP Requests', ['method', 'endpoint'])
 metrics = PrometheusMetrics.for_app_factory()
 
-#TODO da decommentare per Azure
-
 redis_host = os.environ["REDIS_HOST"]  # Sostituisci con l'indirizzo host
 redis_port = os.environ["REDIS_PORT"]  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
 
-
-
-#logging.basicConfig(filename='app.log', level=logging.INFO)    
 logging.basicConfig(level=logging.INFO)    
-
-#TODO da decommentare per Azure
 
 try:
     redis_client = redis.Redis(host=redis_host, port=redis_port, password=redis_psw, ssl=False)
@@ -50,15 +43,15 @@ def search():
         # add the new historyIp to the database
         db.session.add(new_historyIp)
         db.session.commit()
-        
+
     
-    if ip_address == redis_client.get(ip_address):
+    if redis_client.exists(ip_address):
         message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {ip_address} successfull!!")
         return render_template('results.html' , message = message, device_info = retrieved_info)
     
-    elif (ranged_value:=str(ip_address + '_' +range_km)) == redis_client.get(ranged_value):
+    elif redis_client.exists(ranged_value:=str(ip_address + '_' +range_km)):
         message = "Retrieved from RedisCache!"
         retrieved_info =  json.loads(redis_client.get(ip_address))
         logging.info(f"retrieved from cache {ranged_value} successfull!!")
