@@ -7,3 +7,4 @@ flask_login
 prometheus_client
 prometheus_flask_exporter
 psycopg2-binary
+pyTelegramBotAPI

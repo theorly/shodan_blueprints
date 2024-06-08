@@ -15,7 +15,7 @@ REQUEST_COUNT_SEARCH = Counter('http_requests_total_search', 'Total HTTP Request
 metrics = PrometheusMetrics.for_app_factory()
 
 #TODO da decommentare per Azure
- 
+
 redis_host = os.environ["REDIS_HOST"]  # Sostituisci con l'indirizzo host
 redis_port = os.environ["REDIS_PORT"]  # Porta Redis standard
 redis_psw = os.environ["REDIS_PSW"]
@@ -114,7 +114,7 @@ def search():
                 
                     device_info = {
                         'ip': result['ip_str'],
-                        'port': result['port'],
+                        'ports': result['port'],
                         'organization': result.get('org', 'N/A'),
                         'os': result.get('os', 'N/A'),
                         'vulnerabilities': [],

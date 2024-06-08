@@ -19,10 +19,14 @@ def create_app():
 
 
     #TODO da modificare per azure
+    #SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
     SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+
     app.config['SECRET_KEY'] = SHODAN_API_KEY
     app.config['API_SHODAN'] = shodan.Shodan(SHODAN_API_KEY)
-    #TODO mettere in var globali url e pass e #TODO fare un file config.py a parte
+    #
+    #TODO mettere in var globali url e pass 
+    #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://shodanpostgresql:I3moschettieri_@shodanpostgresqlserver.postgres.database.azure.com:5432/postgres?sslmode=require"
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["SQLALCHEMY_DATABASE_URI"]
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
@@ -50,9 +54,11 @@ def create_app():
     from app import main
     from app import search
     from app import alert
+    from app import shodan_bot
     app.register_blueprint(main.main)
     app.register_blueprint(search.host)
     app.register_blueprint(alert.alert)
+    app.register_blueprint(shodan_bot.shodan_bot)
 
 
     metrics = PrometheusMetrics(app)
