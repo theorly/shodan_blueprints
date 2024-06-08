@@ -1,17 +1,20 @@
 #qui uso la libreria pyTelegramBotAPI
 import telebot
-from flask import request, Blueprint, current_app
+from flask import request, Blueprint
 import logging
 import ipaddress
 import shodan
 import os
+import logging
+
+SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+TELEGRAM_BOT_KEY = os.environ["TELEGRAM_BOT_KEY"]
+TELEGRAM_WEBHOOK_URL = os.environ["TELEGRAM_WEBHOOK_URL"]
 
 
 shodan_bot = Blueprint('shodan_bot', __name__)
-#TODO variabile d'ambiente
-bot = telebot.TeleBot("7458903004:AAF6-178ocwCgh4GQvroclS_z-Uznvm5AqQ", parse_mode='HTML')
-#SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
-SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
+
+bot = telebot.TeleBot(TELEGRAM_BOT_KEY, parse_mode='HTML')
 api = shodan.Shodan(SHODAN_API_KEY)
 
 # Enable logging
@@ -33,8 +36,6 @@ def results(ip_address,range_km) -> str:
     try:
         # Effettua la ricerca tramite API di Shodan
         result = api.host(ip_address)
-        #TODO da togliere
-        range_km = "0"
         vuln = {}
         indexes = len(result['data'])
 
@@ -116,7 +117,7 @@ def send_welcome(message):
     with open(f"chat/{message.chat.id}.log", "a") as file:
         file.write(f"{message.from_user.id} - {message.from_user.first_name} {message.from_user.last_name} - {message.text}\n")
 
-    msg = f"Benvenuto {message.from_user.first_name}"
+    msg = f"Welcome {message.from_user.first_name}"
     bot.reply_to(message, msg)
 
 
@@ -171,32 +172,39 @@ def send_welcome(message):
     with open(f"chat/{message.chat.id}.log", "a") as file:
         file.write(f"{message.from_user.id} - {message.from_user.first_name} {message.from_user.last_name} - {message.text}\n")
 
-    msg = "<b>Authors:</b> Sambu, Pier, Orli\n"
+    msg = "<b>Authors:</b> @Sambu, @Pier, @Orly\n"
     msg+= "<b>Github:</b> https://github.com/theorly/shodan_blueprints"
     bot.send_message(message.chat.id, msg)
 
 
 
+def set_webhook():
+    try:
+        bot.remove_webhook()
+        #TODO variabile d'ambiente
+        bot.set_webhook(url=TELEGRAM_WEBHOOK_URL)
+    except Exception as e:
+        logging.error(f"Errore durante la configurazione del webhook: {e}")
+        return "Errore durante la configurazione del webhook", 500
+	
+
+
+set_webhook()
+
 #nel momento che arriva una richiesta dal server telegram
 #arriva in questa route, assegnata nel metodo setwebook()
 @shodan_bot.route("/webhook", methods=['POST'])
 def getMessage():
-	json_string = request.get_data().decode('utf-8')
-	update = telebot.types.Update.de_json(json_string)
-	bot.process_new_updates([update])
-	return "!", 200
+    try: 
+            logging.info(f"Intestazioni della richiesta: {request.headers}")
+            data = request.get_data()
+            logging.info(f"Corpo della richiesta: {data}")
+            json_string = request.get_data().decode('utf-8')
+            update = telebot.types.Update.de_json(json_string)
+            bot.process_new_updates([update])
+            return "!", 200
+    except Exception as e:
+        logging.error(f"Errore durante l'elaborazione del webhook_FUNC ROUTE: {e}")
+        return "Errore durante l'elaborazione del webhook FUNC_ROUTE", 500
 
-
-def set_webhook():
-    bot.remove_webhook()
-    #TODO variabile d'ambiente
-    bot.set_webhook("https://shodanscanning.azurewebsites.net/webhook")
-	
-    #bot.set_webhook("https://a1cf-137-204-150-22.ngrok-free.app/webhook")
-	#https://$shodanscanning:EzXnzQWi2dStdoAvKpusCAv5QlDkemobfMTuGroF9d2gfxthfoRg9pRRoJj3@shodanscanning.scm.azurewebsites.net/api/registry/webhook
-	#https://shodanscanning.azurewebsites.net/
-	
-
-set_webhook()
-#bot.polling()
 	

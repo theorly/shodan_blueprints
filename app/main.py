@@ -19,32 +19,34 @@ metrics = PrometheusMetrics.for_app_factory()
 @metrics.counter('home_requests', 'Number of requests to the main endpoint')
 def home():
     REQUEST_COUNT_MAIN.labels(method='GET', endpoint='/').inc()
-    logging.info('Richiesta ricevuta per la rotta index /')
+    logging.info('Resolved index page!')
     
     return render_template('index.html')
 
 @main.route('/metrics')
 def metrics():
+    logging.info("Metrics route only for debug!")
     return generate_latest(REGISTRY), 200, {'Content-Type': CONTENT_TYPE_LATEST}
 
 @main.route("/search")
 def search():
-    logging.info('Richiesta ricevuta per la rotta search /')
+    logging.info("Resolved search page!")
     return render_template('search.html')
 
 @main.route("/alert_service")
 def alert_service():
-    logging.info('Richiesta ricevuta per la rotta alert_service /')
+    logging.info("Resolved alert_service page!")
     return render_template('alert_service.html')
 
 @main.route("/team")
 def about():
-    logging.info('Richiesta ricevuta per la rotta team /')
+    logging.info("Resolved team page!")
     return render_template("team.html")
 
 @main.route('/profile')
 @login_required # per garantire l'accesso solo ad utenti registrati
 def profile():
+    logging.info("Resolved profile page!")
     if current_user.is_authenticated:
         historyIpUser = HistoryIp.query.filter_by(emailUser=current_user.email)
         return render_template('profile.html', name=current_user.name, historyIpUser=historyIpUser)

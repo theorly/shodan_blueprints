@@ -9,7 +9,6 @@ from prometheus_flask_exporter import PrometheusMetrics
 REQUEST_COUNT_SEARCH = Counter('http_requests_total_alert', 'Total HTTP Requests', ['method', 'endpoint'])
 metrics = PrometheusMetrics.for_app_factory()
 
-#logging.basicConfig(filename='app.log', level=logging.INFO) 
 logging.basicConfig(level=logging.INFO)    
 
 alert = Blueprint("alert", __name__)

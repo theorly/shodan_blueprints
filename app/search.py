@@ -51,7 +51,6 @@ def search():
         db.session.add(new_historyIp)
         db.session.commit()
         
-    #TODO da decommentare per Azure
     
     if ip_address == redis_client.get(ip_address):
         message = "Retrieved from RedisCache!"
@@ -136,20 +135,18 @@ def search():
             message = ('Success!')
             relevant_info['near_devices'] = devices
             #writing on cache 
-            print("Trying to write on cache the result. \n")
+            logging.info("Trying to write on cache the result. \n")
             relevant_info_json = json.dumps(relevant_info)
-            #TODO da decommentare per Azure
             redis_client.set(f"{ip_address}_{range_km}", relevant_info_json)
-            print("Wirting on cache successful! \n")
+            logging.info("Wirting on cache successful! \n")
             return render_template('results_geo.html' , message = message, device_info = relevant_info)
         
         else: 
             message = ('Success!')
-            print("Trying to write on cache the result. \n")
+            logging.info("Trying to write on cache the result. \n")
             relevant_info_json = json.dumps(relevant_info)
-            #TODO da decommentare per Azure
             redis_client.set(f"{ip_address}", relevant_info_json)
-            print("Wirting on cache successful! \n")
+            logging.info("Wirting on cache successful! \n")
             return render_template('results.html' , message = message, device_info = relevant_info)
     
     except shodan.APIError as e:

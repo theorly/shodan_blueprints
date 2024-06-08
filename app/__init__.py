@@ -7,8 +7,6 @@ import os
 from prometheus_flask_exporter import PrometheusMetrics
 
 
-
-#logging.basicConfig(filename='app.log', level=logging.INFO)  
 logging.basicConfig(level=logging.INFO)    
 
 # init SQLAlchemy so we can use it later in our models
@@ -16,17 +14,12 @@ db = SQLAlchemy()
 
 def create_app():
     app = Flask(__name__)
-
-
-    #TODO da modificare per azure
-    #SHODAN_API_KEY = 'hJ4hcLWj7YK3PiIYKqhIaNf0Mw6uGNpQ'
+    
     SHODAN_API_KEY = os.environ["SHODAN_API_KEY"]
 
     app.config['SECRET_KEY'] = SHODAN_API_KEY
     app.config['API_SHODAN'] = shodan.Shodan(SHODAN_API_KEY)
-    #
-    #TODO mettere in var globali url e pass 
-    #app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://shodanpostgresql:I3moschettieri_@shodanpostgresqlserver.postgres.database.azure.com:5432/postgres?sslmode=require"
+ 
     app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["SQLALCHEMY_DATABASE_URI"]
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     
