@@ -114,7 +114,7 @@ def search():
                 
                     device_info = {
                         'ip': result['ip_str'],
-                        'port': result['port'],
+                        'ports': result['port'],
                         'organization': result.get('org', 'N/A'),
                         'os': result.get('os', 'N/A'),
                         'vulnerabilities': [],
