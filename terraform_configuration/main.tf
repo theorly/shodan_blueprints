@@ -291,8 +291,6 @@ resource "azurerm_linux_web_app" "shodan_webapp" {
   site_config {
     always_on                         = false
     ftps_state                        = "FtpsOnly"
-    ip_restriction_default_action     = ""
-    scm_ip_restriction_default_action = ""
   }
   sticky_settings {
     app_setting_names = ["GOOGLE_PROVIDER_AUTHENTICATION_SECRET"]

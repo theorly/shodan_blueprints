@@ -46,8 +46,6 @@ variable "REDIS_PSW" {
   sensitive   = true
 }
 
-//RIVEDERE
-
 variable "shodan_api_key" {
   type        = string
   description = "Shodan API key"
