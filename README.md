@@ -13,6 +13,10 @@ Shodan-Eye Vulnerability Scanning è una webapp sviluppata in Python utilizzando
 - **Report dettagliati**: Visualizzazione dei risultati delle scansioni con dettagli sulle vulnerabilità trovate.
 - **Facile configurazione**: Semplice da installare e configurare.
 
+## Sito web
+
+Per utilizzare l'app visita il sito web [Shodan-Scanning](https://shodanscanning.azurewebsites.net/).
+
 
 ## Utilizzo
 
