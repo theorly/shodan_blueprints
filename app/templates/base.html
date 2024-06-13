@@ -34,6 +34,14 @@
       </ul>
       {% endif %}
 
+      {% if current_user.is_authenticated %}
+        {% if current_user.email in ["dborlando98@gmail.com", "luca.sambuchi@studio.unibo.it", "pieranton.carrozzini@studio.unibo.it", "orlando.debernardis@studio.unibo.it"] %}
+        <ul class="right hide-on-med-and-down">
+          <li><a href="{{ url_for('main.grafana') }}">Grafana-Dashboard</a></li>
+        </ul>
+        {% endif %}
+      {% endif %}
+
 
       {% if not current_user.is_authenticated %}
 

@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, redirect
 from flask_login import login_required, current_user
 import logging
 from app.models import HistoryIp
@@ -27,6 +27,12 @@ def home():
 def metrics():
     logging.info("Metrics route only for debug!")
     return generate_latest(REGISTRY), 200, {'Content-Type': CONTENT_TYPE_LATEST}
+
+@main.route('/grafana')
+@login_required
+def grafana():
+    logging.info("Grafana route only for debug!")
+    return redirect('https://shodanscanning.azurewebsites.net/grafana')
 
 @main.route("/search")
 def search():
