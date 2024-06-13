@@ -3,6 +3,8 @@
 
 Shodan-Eye Vulnerability Scanning è una webapp sviluppata in Python utilizzando il framework Flask. La webapp sfrutta l'API di Shodan per eseguire scansioni di vulnerabilità su dispositivi e servizi esposti su Internet. Questo strumento è pensato per aiutare gli amministratori di rete e i professionisti della sicurezza a identificare potenziali rischi di sicurezza nelle loro infrastrutture.
 
+![Shodan-Eye](images/architecture.jpeg)
+
 ## Caratteristiche
 
 - **Scansione di vulnerabilità**: Utilizza l'API di Shodan per cercare e identificare dispositivi vulnerabili.
